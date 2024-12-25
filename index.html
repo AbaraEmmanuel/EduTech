@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduTech - Explore Your Learning Journey</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body class="light-mode">
+    <!-- Light/Dark Mode Toggle -->
+    <button class="mode-toggle" onclick="toggleMode()">☀️</button>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-left">
+            <img src="ht9.png" alt="EduTech Logo" class="logo_img">
+            <a href="#index" class="name">EduTech</a>
+        </div>
+        <ul class="nav-menu">
+            <li class="nav-item dropdown">
+                <a href="#" class="nav-link">Learning Plans &#9662;</a>
+                <ul class="dropdown-menu">
+                    <li><a href="#">Plan 1</a></li>
+                    <li><a href="#">Plan 2</a></li>
+                    <li><a href="#">Plan 3</a></li>
+                </ul>
+            </li>
+            <li class="nav-item"><a href="#" class="nav-link">How it Works</a></li>
+            <li class="nav-item"><a href="#" class="nav-link">Our Difference</a></li>
+            <li class="nav-item dropdown">
+                <a href="#" class="nav-link">For Tutors &#9662;</a>
+                <ul class="dropdown-menu">
+                    <li><a href="#">For Tutors</a></li>
+                    <li><a href="#">Create Tutor Profile</a></li>
+                </ul>
+            </li>
+        </ul>
+        <div class="auth-buttons">
+            <button class="button_login">Sign In</button>
+            <button class="button-neon">Sign Up</button>
+        </div>
+    </nav>
+
+    <!-- Main Content Section -->
+    <main>
+        <section class="section" id="intro">
+            <h1>Welcome to EduTech</h1>
+            <p>Discover personalized learning paths designed for your success.</p>
+        </section>
+
+        <section class="section" id="features">
+            <h2>Why Choose EduTech?</h2>
+            <p>Innovative tools, expert tutors, and engaging content for all subjects.</p>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        &copy; 2024 EduTech. All Rights Reserved.
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        function toggleMode() {
+            document.body.classList.toggle('light-mode');
+            document.body.classList.toggle('dark-mode');
+        }
+
+        // Scroll-based animations
+        const sections = document.querySelectorAll('.section');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        });
+
+        sections.forEach(section => observer.observe(section));
+    </script>
+</body>
+</html>
