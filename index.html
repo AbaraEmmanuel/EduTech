@@ -37,12 +37,37 @@
                 </ul>
             </li>
         </ul>
+        <div class="hamburger" id="hamburger">&#9776;</div>
         <div class="auth-buttons">
             <button class="button_login">Sign In</button>
             <button class="button-neon">Sign Up</button>
         </div>
     </nav>
-
+    <div class="sidebar" id="sidebar">
+        <ul class="nav-menu">
+            <li class="nav-item"><a href="#" class="nav-link">How it Works</a></li>
+            <li class="nav-item"><a href="#" class="nav-link">Our Difference</a></li>
+            <li class="nav-item dropdown">
+                <a href="#" class="nav-link">For Tutors &#9662;</a>
+                <ul class="dropdown-menu">
+                    <li><a href="#">For Tutors</a></li>
+                    <li><a href="#">Create Tutor Profile</a></li>
+                </ul>
+            </li>
+            <li class="nav-item dropdown">
+                <a href="#" class="nav-link">Learning Plans &#9662;</a>
+                <ul class="dropdown-menu">
+                    <li><a href="#">Plan 1</a></li>
+                    <li><a href="#">Plan 2</a></li>
+                    <li><a href="#">Plan 3</a></li>
+                </ul>
+            </li>
+            <div class="auth-buttons">
+                <button class="button_login">Sign In</button>
+                <button class="button-neon">Sign Up</button>
+            </div>
+        </ul>
+    </div>
     <!-- Main Content Section -->
     <main>
         <section class="section" id="intro">
@@ -115,20 +140,22 @@
             }
         });
         document.addEventListener("DOMContentLoaded", () => {
-        const hamburger = document.getElementById("hamburger");
-        const sidebar = document.getElementById("sidebar");
+            const sidebar = document.getElementById("sidebar");
+            const hamburger = document.getElementById("hamburger");
 
-        hamburger.addEventListener("click", () => {
-            sidebar.classList.toggle("open");
+            // Toggle sidebar on hamburger menu click
+            hamburger.addEventListener("click", () => {
+                sidebar.classList.toggle("open");
+            });
+
+            // Close sidebar when clicking outside
+            document.addEventListener("click", (e) => {
+                if (!sidebar.contains(e.target) && !hamburger.contains(e.target)) {
+                    sidebar.classList.remove("open");
+                }
+            });
         });
 
-        // Optional: Close sidebar when clicking outside
-        document.addEventListener("click", (e) => {
-            if (!sidebar.contains(e.target) && !hamburger.contains(e.target)) {
-                sidebar.classList.remove("open");
-            }
-        });
-    });
 
     </script>
 </body>
