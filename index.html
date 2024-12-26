@@ -7,9 +7,10 @@
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
+
 <body class="light-mode">
     <!-- Light/Dark Mode Toggle -->
-    <button class="mode-toggle" onclick="toggleMode()">☀️</button>
+    <button class="mode-toggle" id="modeToggle">🌞</button>
 
     <!-- Navigation Bar -->
     <nav class="navbar">
@@ -47,37 +48,88 @@
         <section class="section" id="intro">
             <h1>Welcome to EduTech</h1>
             <p>Discover personalized learning paths designed for your success.</p>
+            <p>Discover personalized learning paths designed for your success.</p>
+            <p>Discover personalized learning paths designed for your success.</p>
+            <p>Discover personalized learning paths designed for your success.</p>
         </section>
 
         <section class="section" id="features">
             <h2>Why Choose EduTech?</h2>
+            <p>Innovative tools, expert tutors, and engaging content for all subjects.</p>
+            <p>Innovative tools, expert tutors, and engaging content for all subjects.</p>
+            <p>Innovative tools, expert tutors, and engaging content for all subjects.</p>
             <p>Innovative tools, expert tutors, and engaging content for all subjects.</p>
         </section>
     </main>
 
     <!-- Footer -->
     <footer class="footer">
-        &copy; 2024 EduTech. All Rights Reserved.
-    </footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>EduTech</h3>
+                <p>Explore personalized learning journeys designed for success.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Social Media</h3>
+                <ul>
+                    <li><img src="facebook-icon.png" alt="Facebook"> Facebook</li>
+                    <li><img src="twitter-icon.png" alt="Twitter"> Twitter</li>
+                    <li><img src="instagram-icon.png" alt="Instagram"> Instagram</li>
+                    <li><img src="linkedin-icon.png" alt="LinkedIn"> LinkedIn</li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Contact</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                </ul>
+            </div>
+            <button class="tutors-login-btn">Tutors Login</button>
+        </div>
+        <p>&copy; 2024 EduTech. All Rights Reserved.</p>
+    </footer>    
 
     <!-- JavaScript -->
     <script>
-        function toggleMode() {
-            document.body.classList.toggle('light-mode');
-            document.body.classList.toggle('dark-mode');
-        }
+        // Retrieve saved theme from localStorage and apply it
+        const savedTheme = localStorage.getItem('theme') || 'light-mode';
+        document.body.className = savedTheme;
 
-        // Scroll-based animations
-        const sections = document.querySelectorAll('.section');
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
+        // Update the toggle button icon based on the saved theme
+        const modeToggle = document.getElementById('modeToggle');
+        modeToggle.textContent = savedTheme === 'dark-mode' ? '🌙' : '🌞';
+
+        // Toggle theme and save preference to localStorage
+        modeToggle.addEventListener('click', () => {
+            if (document.body.classList.contains('light-mode')) {
+                document.body.classList.replace('light-mode', 'dark-mode');
+                modeToggle.textContent = '🌙';
+                localStorage.setItem('theme', 'dark-mode');
+            } else {
+                document.body.classList.replace('dark-mode', 'light-mode');
+                modeToggle.textContent = '🌞';
+                localStorage.setItem('theme', 'light-mode');
+            }
+        });
+        document.addEventListener("DOMContentLoaded", () => {
+        const hamburger = document.getElementById("hamburger");
+        const sidebar = document.getElementById("sidebar");
+
+        hamburger.addEventListener("click", () => {
+            sidebar.classList.toggle("open");
         });
 
-        sections.forEach(section => observer.observe(section));
+        // Optional: Close sidebar when clicking outside
+        document.addEventListener("click", (e) => {
+            if (!sidebar.contains(e.target) && !hamburger.contains(e.target)) {
+                sidebar.classList.remove("open");
+            }
+        });
+    });
+
     </script>
 </body>
 </html>
