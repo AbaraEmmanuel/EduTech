@@ -93,6 +93,12 @@ body.dark-mode {
     font-size: 1rem;
 }
 
+.feature-item img {
+    max-width: 300px;
+    height: 150px;
+    border-radius: 10px;
+}
+
 /* Testimonials Section */
 .testimonials {
     padding: 60px 20px;
