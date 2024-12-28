@@ -110,11 +110,19 @@ body.dark-mode {
     margin-bottom: 40px;
 }
 
-.testimonial-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-    justify-items: center;
+.testimonial-wrapper {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    overflow: hidden;
+    height: 240px; /* Adjust to fit two testimonial cards */
+    position: relative;
+}
+
+.testimonial-column {
+    display: flex;
+    flex-direction: column;
+    animation: slideUp 5s linear infinite;
 }
 
 .testimonial-item {
@@ -124,6 +132,7 @@ body.dark-mode {
     max-width: 350px;
     font-style: italic;
     text-align: left;
+    margin-bottom: 20px;
 }
 
 .testimonial-item p {
@@ -135,6 +144,21 @@ body.dark-mode {
     font-size: 1rem;
     color: rgb(96, 95, 95);
     display: block;
+}
+
+/* Keyframes for sliding animation */
+@keyframes slideUp {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(-100%); /* Adjust based on the total height of content */
+    }
+}
+
+/* Alternate direction for right column */
+.right-column {
+    animation-direction: reverse; /* Right column slides in the opposite direction */
 }
 
 /* Call to Action Section */
@@ -286,6 +310,51 @@ body.dark-mode .mode-toggle {
 .sidebar a:hover {
     color: #ffa500;
 }
+
+.schools {
+    text-align: center;
+    margin: 50px 0;
+}
+
+.schools h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+.school-slider {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    overflow: hidden;
+    position: relative;
+    height: 300px; /* Adjust based on the number of schools */
+}
+
+.school-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: slide 8s linear infinite;
+}
+
+.school-img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 10px;
+}
+
+@keyframes slide {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(-500%);
+    }
+}
+
 
 @keyframes slideDown {
     from {
@@ -627,6 +696,10 @@ body {
     .nav-menu {
         display: flex; /* Show menu on larger screens */
     }
+
+    .sign-up-form label {
+        flex: 0 0 100%; /* Make inputs full width */
+    }
 }
 
 
@@ -666,4 +739,196 @@ html {
 .card:hover {
     transform: translateY(-10px);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+
+/* Sign-In Section */
+.sign-in-container {
+    margin: auto;
+    margin-top: 40px;
+    position: relative;
+    padding: 20px;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    border: 2px solid transparent;
+    border-image: linear-gradient(90deg, #4b134f, #c94b4b) 1;
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.1); /* Transparent background */
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.sign-in-container h2 {
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.sign-in-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.sign-in-form label {
+    text-align: left;
+    font-weight: 500;
+    color: inherit;
+}
+
+.sign-in-form input {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    outline: none;
+    transition: border-color 0.3s;
+    background-color: rgba(255, 255, 255, 0.6);
+    color: #333;
+}
+
+.sign-in-form input:focus {
+    border-color: #c94b4b;
+}
+
+.sign-in-form .btn {
+    padding: 10px;
+    font-size: 16px;
+    color: white;
+    background: linear-gradient(90deg, #4b134f, #c94b4b);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+}
+
+.sign-in-form .btn:hover {
+    transform: scale(1.05);
+}
+
+.register-link {
+    font-size: 14px;
+}
+
+.register-link a {
+    color: #c94b4b;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.register-link a:hover {
+    text-decoration: underline;
+}
+
+/* Sign-Up Container */
+.sign-up-container {
+    margin: auto;
+    margin-top: 40px;
+    position: relative;
+    padding: 20px;
+    width: 90%;
+    max-width: 600px;
+    text-align: center;
+    border: 2px solid transparent;
+    border-image: linear-gradient(90deg, #4b134f, #c94b4b) 1;
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.sign-up-container h2 {
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+/* Sign-Up Form */
+.sign-up-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: space-between;
+}
+
+.sign-up-form label {
+    display: flex;
+    flex-direction: column;
+    flex: 0 0 48%; /* Divide fields into two columns */
+    text-align: left;
+    font-weight: 500;
+    color: inherit;
+}
+
+.sign-up-form input,
+.sign-up-form select {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    outline: none;
+    transition: border-color 0.3s;
+    background-color: rgba(255, 255, 255, 0.6);
+    color: #333;
+}
+
+.sign-up-form input:focus,
+.sign-up-form select:focus {
+    border-color: #c94b4b;
+}
+
+/* Submit Button */
+.sign-up-form .btn {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    color: white;
+    background: linear-gradient(90deg, #4b134f, #c94b4b);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+}
+
+.sign-up-form .btn:hover {
+    transform: scale(1.05);
+}
+
+/* Terms Link */
+.terms-link {
+    font-size: 14px;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.terms-link a {
+    color: #c94b4b;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.terms-link a:hover {
+    text-decoration: underline;
+}
+
+/* Already Have an Account */
+.already-account {
+    margin-top: 15px;
+    font-size: 14px;
+    text-align: center;
+    color: #666;
+}
+
+.already-account a {
+    color: #c94b4b;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.already-account a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive Design for Smaller Screens */
+@media (max-width: 768px) {
+
 }

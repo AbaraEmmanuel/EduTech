@@ -16,7 +16,7 @@
     <nav class="navbar">
         <div class="navbar-left">
             <img src="ht9.png" alt="EduTech Logo" class="logo_img">
-            <a href="#index" class="name">EduTech</a>
+            <a href="index.html" class="name">EduTech</a>
         </div>
         <ul class="nav-menu">
             <li class="nav-item dropdown">
@@ -39,8 +39,8 @@
         </ul>
         <div class="hamburger" id="hamburger">&#9776;</div>
         <div class="auth-buttons">
-            <button class="button_login">Sign In</button>
-            <button class="button-neon">Sign Up</button>
+            <a href="sign_in.html" class="button_login">Sign In</a>
+            <a href="sign_up.html" class="button-neon">Sign Up</a>
         </div>
     </nav>
     <div class="sidebar" id="sidebar">
@@ -63,7 +63,7 @@
                 </ul>
             </li>
             <div class="auth-buttons">
-                <button class="button_login">Sign In</button>
+                <a href="sign_in.html" class="button_login">Sign In</a>
                 <button class="button-neon">Sign Up</button>
             </div>
         </ul>
@@ -105,35 +105,70 @@
         </section>
 
         <!-- Testimonials Section -->
-        <section class="testimonials">
-            <h2>What Our Customers Say</h2>
-            <div class="testimonial-grid">
-                <div class="testimonial-item">
-                    <p>"This service is amazing! Highly recommend to everyone."</p>
-                    <cite>— John Doe</cite>
-                </div>
-                <div class="testimonial-item">
-                    <p>"Absolutely fantastic! The best decision I’ve made this year."</p>
-                    <cite>— Jane Smith</cite>
-                </div>
-                <div class="testimonial-item">
-                    <p>"The quality of service exceeded my expectations. A++!"</p>
-                    <cite>— Michael Brown</cite>
-                </div>
-                <div class="testimonial-item">
-                    <p>"Great experience overall. I’ll definitely come back again."</p>
-                    <cite>— Emily White</cite>
-                </div>
-                <div class="testimonial-item">
-                    <p>"Absolutely fantastic! The best decision I’ve made this year."</p>
-                    <cite>— Jane Smith</cite>
-                </div>
-                <div class="testimonial-item">
-                    <p>"The quality of service exceeded my expectations. A++!"</p>
-                    <cite>— Michael Brown</cite>
-                </div>
+<section class="testimonials">
+    <h2>What Our Users Say</h2>
+    <div class="testimonial-wrapper">
+        <!-- Left Column -->
+        <div class="testimonial-column left-column">
+            <div class="testimonial-item">
+                <p>"This platform changed the way I learn. Highly recommended!"</p>
+                <cite>- Jane Doe</cite>
             </div>
-        </section>        
+            <div class="testimonial-item">
+                <p>"A great experience from start to finish. 5 stars!"</p>
+                <cite>- John Smith</cite>
+            </div>
+            <div class="testimonial-item">
+                <p>"The resources and support are unmatched. Thank you!"</p>
+                <cite>- Maria Lee</cite>
+            </div>
+        </div>
+
+        <!-- Right Column -->
+        <div class="testimonial-column right-column">
+            <div class="testimonial-item">
+                <p>"I’ve improved so much since joining this program!"</p>
+                <cite>- Michael Brown</cite>
+            </div>
+            <div class="testimonial-item">
+                <p>"Learning has never been this fun and easy!"</p>
+                <cite>- Sarah Connor</cite>
+            </div>
+            <div class="testimonial-item">
+                <p>"Their resources are truly amazing!"</p>
+                <cite>- David Carter</cite>
+            </div>
+        </div>
+    </div>
+</section>
+
+        
+                <!-- Schools Section -->
+                <section class="schools" id="schools">
+                    <h2>Schools That Trust Us</h2>
+                    <div class="school-slider">
+                        <div class="school-item">
+                            <img src="school1.jpg" alt="School 1" class="school-img">
+                            <p>Harvard University</p>
+                        </div>
+                        <div class="school-item">
+                            <img src="school2.jpg" alt="School 2" class="school-img">
+                            <p>Stanford University</p>
+                        </div>
+                        <div class="school-item">
+                            <img src="school3.jpg" alt="School 3" class="school-img">
+                            <p>MIT</p>
+                        </div>
+                        <div class="school-item">
+                            <img src="school4.jpg" alt="School 4" class="school-img">
+                            <p>Oxford University</p>
+                        </div>
+                        <div class="school-item">
+                            <img src="school5.jpg" alt="School 5" class="school-img">
+                            <p>Cambridge University</p>
+                        </div>
+                    </div>
+                </section>        
 
         <!-- Call to Action Section -->
         <section class="section cta">
@@ -211,8 +246,6 @@
                 }
             });
         });
-
-
     </script>
 </body>
 </html>

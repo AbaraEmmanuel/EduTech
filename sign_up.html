@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduTech - Join the Learning Revolution</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+
+<body class="light-mode">
+    <!-- Light/Dark Mode Toggle -->
+    <button class="mode-toggle" id="modeToggle">🌞</button>
+
+    <nav class="navbar">
+        <div class="navbar-left">
+            <img src="ht9.png" alt="EduTech Logo" class="logo_img">
+            <a href="index.html" class="name">EduTech</a>
+        </div>
+        <a href="index.html" class="nav-link">Home</a>
+        <div class="hamburger" id="hamburger">&#9776;</div>
+    </nav>
+
+    <div class="sidebar" id="sidebar">
+        <ul class="nav-menu">
+            <li class="nav-item"><a href="#" class="nav-link">How it Works</a></li>
+            <li class="nav-item"><a href="#" class="nav-link">Our Difference</a></li>
+            <li class="nav-item dropdown">
+                <a href="#" class="nav-link">For Tutors &#9662;</a>
+                <ul class="dropdown-menu">
+                    <li><a href="#">For Tutors</a></li>
+                    <li><a href="#">Create Tutor Profile</a></li>
+                </ul>
+            </li>
+            <li class="nav-item dropdown">
+                <a href="#" class="nav-link">Learning Plans &#9662;</a>
+                <ul class="dropdown-menu">
+                    <li><a href="#">Plan 1</a></li>
+                    <li><a href="#">Plan 2</a></li>
+                    <li><a href="#">Plan 3</a></li>
+                </ul>
+            </li>
+            <div class="auth-buttons">
+                <a href="sign_in.html" class="button_login">Sign In</a>
+                <button class="button-neon">Sign Up</button>
+            </div>
+        </ul>
+    </div>
+
+    <div class="sign-up-container">
+        <h2>Sign Up for EduTech</h2>
+        <form class="sign-up-form">
+            <label>
+                First Name
+                <input type="text" name="first-name" placeholder="Enter your first name" required>
+            </label>
+            <label>
+                Last Name
+                <input type="text" name="last-name" placeholder="Enter your last name" required>
+            </label>
+            <label>
+                Email
+                <input type="email" name="email" placeholder="Enter your email" required>
+            </label>
+            <label>
+                Password
+                <input type="password" name="password" placeholder="Create a password" required>
+            </label>
+            <label>
+                Confirm Password
+                <input type="password" name="confirm-password" placeholder="Confirm your password" required>
+            </label>
+            <label>
+                Role
+                <select name="role" required>
+                    <option value="">Select Role</option>
+                    <option value="student">Student</option>
+                    <option value="tutor">Tutor</option>
+                </select>
+            </label>
+            <button type="submit" class="btn">Sign Up</button>
+            <p class="terms-link">By signing up, you agree to our <a href="#">Terms of Service</a>.</p>
+        </form>
+        <div class="already-account">
+            Already have an account? <a href="sign_in.html">Sign In</a>
+        </div>
+    </div>
+    
+    
+
+    <!-- JavaScript -->
+    <script>
+        // Retrieve saved theme from localStorage and apply it
+        const savedTheme = localStorage.getItem('theme') || 'light-mode';
+        document.body.className = savedTheme;
+
+        // Update the toggle button icon based on the saved theme
+        const modeToggle = document.getElementById('modeToggle');
+        modeToggle.textContent = savedTheme === 'dark-mode' ? '🌙' : '🌞';
+
+        // Toggle theme and save preference to localStorage
+        modeToggle.addEventListener('click', () => {
+            if (document.body.classList.contains('light-mode')) {
+                document.body.classList.replace('light-mode', 'dark-mode');
+                modeToggle.textContent = '🌙';
+                localStorage.setItem('theme', 'dark-mode');
+            } else {
+                document.body.classList.replace('dark-mode', 'light-mode');
+                modeToggle.textContent = '🌞';
+                localStorage.setItem('theme', 'light-mode');
+            }
+        });
+        document.addEventListener("DOMContentLoaded", () => {
+            const sidebar = document.getElementById("sidebar");
+            const hamburger = document.getElementById("hamburger");
+
+            // Toggle sidebar on hamburger menu click
+            hamburger.addEventListener("click", () => {
+                sidebar.classList.toggle("open");
+            });
+
+            // Close sidebar when clicking outside
+            document.addEventListener("click", (e) => {
+                if (!sidebar.contains(e.target) && !hamburger.contains(e.target)) {
+                    sidebar.classList.remove("open");
+                }
+            });
+        });
+    </script>
+</body>
+</html>
