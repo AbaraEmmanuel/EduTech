@@ -174,7 +174,7 @@
         <section class="section cta">
             <h2>Start Your Learning Journey Today</h2>
             <p>Join thousands of learners achieving their goals with EduTech.</p>
-            <button class="cta-button">Sign Up Now</button>
+            <a href="sign_up.html" class="cta-button">Sign Up Now</a>
         </section>
     </main>
 
@@ -210,26 +210,29 @@
 
     <!-- JavaScript -->
     <script>
-        // Retrieve saved theme from localStorage and apply it
-        const savedTheme = localStorage.getItem('theme') || 'light-mode';
-        document.body.className = savedTheme;
-
-        // Update the toggle button icon based on the saved theme
-        const modeToggle = document.getElementById('modeToggle');
-        modeToggle.textContent = savedTheme === 'dark-mode' ? '🌙' : '🌞';
-
-        // Toggle theme and save preference to localStorage
-        modeToggle.addEventListener('click', () => {
-            if (document.body.classList.contains('light-mode')) {
-                document.body.classList.replace('light-mode', 'dark-mode');
-                modeToggle.textContent = '🌙';
-                localStorage.setItem('theme', 'dark-mode');
-            } else {
-                document.body.classList.replace('dark-mode', 'light-mode');
-                modeToggle.textContent = '🌞';
-                localStorage.setItem('theme', 'light-mode');
-            }
-        });
+        document.addEventListener('DOMContentLoaded', () => {
+            // Retrieve saved theme from localStorage and apply it
+            const savedTheme = localStorage.getItem('theme') || 'light-mode';
+            document.body.className = savedTheme;
+    
+            // Update the toggle button icon based on the saved theme
+            const modeToggle = document.getElementById('modeToggle');
+            modeToggle.textContent = savedTheme === 'dark-mode' ? '\u263D' : '\u2600'; // Unicode for moon and sun
+    
+            // Toggle theme and save preference to localStorage
+            modeToggle.addEventListener('click', () => {
+                if (document.body.classList.contains('light-mode')) {
+                    document.body.classList.replace('light-mode', 'dark-mode');
+                    modeToggle.textContent = '\u263D'; // Unicode for crescent moon
+                    localStorage.setItem('theme', 'dark-mode');
+                } else {
+                    document.body.classList.replace('dark-mode', 'light-mode');
+                    modeToggle.textContent = '\u2600'; // Unicode for sun
+                    localStorage.setItem('theme', 'light-mode');
+                }
+            });
+        });    
+   
         document.addEventListener("DOMContentLoaded", () => {
             const sidebar = document.getElementById("sidebar");
             const hamburger = document.getElementById("hamburger");

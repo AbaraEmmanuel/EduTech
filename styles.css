@@ -927,8 +927,3 @@ html {
 .already-account a:hover {
     text-decoration: underline;
 }
-
-/* Responsive Design for Smaller Screens */
-@media (max-width: 768px) {
-
-}
