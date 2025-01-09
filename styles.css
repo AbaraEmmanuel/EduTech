@@ -927,3 +927,110 @@ html {
 .already-account a:hover {
     text-decoration: underline;
 }
+
+
+/* Pricing Section */
+.section.packages {
+    text-align: center;
+    padding: 3rem 2rem;
+}
+
+.section.packages h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.section.packages .subtitle {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    color: #aeaeae;
+}
+
+.pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.pricing-card {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    border-radius: 10px;
+    padding: 3rem;
+    box-shadow: 0 6px 12px rgb(255, 0, 0);
+    /*background: #fff;*/
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.pricing-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 12px 24px rgb(2, 255, 82);
+    cursor: pointer;
+}
+
+.pricing-card h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.pricing-card .price {
+    font-size: 2rem;
+    color: #4caf50;
+    margin: 1rem 0;
+}
+
+.pricing-card .features {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0;
+}
+
+.pricing-card .features li {
+    margin-bottom: 0.5rem;
+}
+
+.pricing-card.basic {
+    border-top: 5px solid #2196f3;
+}
+
+.pricing-card.pro {
+    border-top: 5px solid #fbc02d;
+}
+
+.pricing-card.premium {
+    border-top: 5px solid #e91e63;
+}
+
+/* Call to Action Section */
+.cta {
+    border: 2px solid #06b20e;
+    border-radius: 8px;
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.cta h2 {
+    font-size: 2.2rem;
+    margin-bottom: 20px;
+}
+
+.cta p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+}
+
+.cta .cta-button {
+    color: #ff5722;
+    border: none;
+    padding: 15px 30px;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.cta .cta-button:hover {
+    background-color: #ff5722;
+    color: white;
+}

@@ -1,5 +1,5 @@
-import { showNotification } from './notification.js';  // Import from notification.js
-import { auth, db } from './firebase.js';  // Import auth and db from firebase.js
+import { showNotification } from './notification.js'; // Import from notification.js
+import { auth, db } from './firebase.js'; // Import auth and db from firebase.js
 import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
 import { setDoc, doc, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
 
@@ -13,11 +13,11 @@ document.querySelector('.sign-up-form').addEventListener('submit', async (e) => 
     const confirmPassword = e.target['confirm-password'].value;
     const role = e.target.role.value;
 
-    showNotification('Processing..', 'Loading');
+    showNotification('Processing....', 'Loading');
 
     // Ensure passwords match
     if (password !== confirmPassword) {
-        showNotification('Passwords do not match!', 'error');
+        showNotification('Passwords not match!', 'error');
         return;
     }
 
@@ -39,10 +39,27 @@ document.querySelector('.sign-up-form').addEventListener('submit', async (e) => 
         // Show notification on successful signup
         showNotification('Sign-up successful!', 'success');
 
-        // Redirect to sign_in.html after 2 seconds (so user can see the success notification)
+        // Redirect to the appropriate payment page based on the selected plan
+        let paymentPage = '';
+        switch (role) {
+            case 'basicplan':
+                paymentPage = 'basic_payment.html';
+                break;
+            case 'proplan':
+                paymentPage = 'pro_payment.html';
+                break;
+            case 'premiumplan':
+                paymentPage = 'premium_payment.html';
+                break;
+            default:
+                paymentPage = 'error.html'; // Fallback in case of an unknown role
+        }
+
+        console.log('Redirecting to:', paymentPage);
+        // Redirect after 2 seconds to allow time for the success notification
         setTimeout(() => {
-            window.location.href = 'sign_in.html';  // Redirect to the sign-in page
-        }, 2000);  // 2 seconds delay before redirecting
+            window.location.href = paymentPage;
+        }, 3000);
 
     } catch (error) {
         showNotification(`Error: ${error.message}`, 'error');

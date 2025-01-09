@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduTech - Basic Plan Payment</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="light-mode">
+    <div class="payment-container">
+        <h1>Welcome to the Basic Plan</h1>
+        <p>Get started with essential features for just <strong>$10</strong> per month!</p>
+        <p>This plan includes access to our core learning materials and basic tutor support.</p>
+        <form action="/process_basic_payment" method="POST">
+            <label>
+                Card Number
+                <input type="text" name="card-number" placeholder="1234 5678 9012 3456" required>
+            </label>
+            <label>
+                Expiry Date
+                <input type="text" name="expiry-date" placeholder="MM/YY" required>
+            </label>
+            <label>
+                CVV
+                <input type="text" name="cvv" placeholder="123" required>
+            </label>
+            <button type="submit" class="btn">Pay $10</button>
+        </form>
+    </div>
+</body>
+</html>
