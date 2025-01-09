@@ -35,9 +35,7 @@ document.querySelector('.sign-up-form').addEventListener('submit', async (e) => 
             role,
             createdAt: serverTimestamp(),
         });
-        
-        // Show notification on successful signup
-        showNotification('Sign-up successful!', 'success');
+
 
         // Redirect to the appropriate payment page based on the selected plan
         let paymentPage = '';
@@ -55,6 +53,10 @@ document.querySelector('.sign-up-form').addEventListener('submit', async (e) => 
                 paymentPage = 'error.html'; // Fallback in case of an unknown role
         }
 
+                
+        // Show notification on successful signup
+        showNotification('Sign-up successful!', 'success');
+        
         console.log('Redirecting to:', paymentPage);
         // Redirect after 2 seconds to allow time for the success notification
         setTimeout(() => {
