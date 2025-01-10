@@ -38,3 +38,4 @@ document.addEventListener('DOMContentLoaded', () => {
         showNotification('Error: Video input element not found.', 'error');
     }
 });
+showNotification('Testing notification from tutorsignup.js', 'success');
