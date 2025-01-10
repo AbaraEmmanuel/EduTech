@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (video.duration > 120) {
                         console.log('Triggering notification...'); // Debug: Check notification trigger
                         showNotification('The video exceeds the 2-minute limit. Please upload a shorter video.', 'error');
-                        event.target.value = ''; // Clear the input
+                        // event.target.value = ''; Clear the input
                     }
                 };
 
