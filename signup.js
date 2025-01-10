@@ -6,6 +6,8 @@ import { setDoc, doc, serverTimestamp } from "https://www.gstatic.com/firebasejs
 document.querySelector('.sign-up-form').addEventListener('submit', async (e) => {
     e.preventDefault(); // Prevent page reload
 
+    showNotification('Processing...', 'Loading');
+
     const firstName = e.target['first-name'].value;
     const lastName = e.target['last-name'].value;
     const email = e.target.email.value;
@@ -13,7 +15,6 @@ document.querySelector('.sign-up-form').addEventListener('submit', async (e) => 
     const confirmPassword = e.target['confirm-password'].value;
     const role = e.target.role.value;
 
-    showNotification('Processing...', 'Loading');
 
     // Ensure passwords match
     if (password !== confirmPassword) {

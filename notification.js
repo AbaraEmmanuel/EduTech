@@ -18,5 +18,5 @@ export function showNotification(message, type) {
     // Hide after 3 seconds
     setTimeout(() => {
         notification.classList.remove('show');
-    }, 3000);
+    }, 4000);
 }
