@@ -146,6 +146,23 @@
             });
         });
     </script>
-    <script type="module" src="tutorsignup.js"></script>     
+    <script>
+        document.getElementById('video').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const video = document.createElement('video');
+                video.preload = 'metadata';
+                
+                video.onloadedmetadata = function() {
+                    window.URL.revokeObjectURL(video.src);
+                    if (video.duration > 120) {
+                        alert('The video exceeds the 2-minute limit. Please upload a shorter video.');
+                        event.target.value = ''; // Clear the file input
+                    }
+                };
+                video.src = URL.createObjectURL(file);
+            }
+        });
+    </script>     
 </body>
 </html>
