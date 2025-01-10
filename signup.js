@@ -13,11 +13,11 @@ document.querySelector('.sign-up-form').addEventListener('submit', async (e) => 
     const confirmPassword = e.target['confirm-password'].value;
     const role = e.target.role.value;
 
-    showNotification('Processing....', 'Loading');
+    showNotification('Processing...', 'Loading');
 
     // Ensure passwords match
     if (password !== confirmPassword) {
-        showNotification('Passwords not match!', 'error');
+        showNotification('Passwords do not match!', 'error');
         return;
     }
 
@@ -56,7 +56,7 @@ document.querySelector('.sign-up-form').addEventListener('submit', async (e) => 
                 
         // Show notification on successful signup
         showNotification('Sign-up successful!', 'success');
-        
+
         console.log('Redirecting to:', paymentPage);
         // Redirect after 2 seconds to allow time for the success notification
         setTimeout(() => {

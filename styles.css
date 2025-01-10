@@ -335,7 +335,7 @@ body.dark-mode .mode-toggle {
     display: flex;
     flex-direction: column;
     align-items: center;
-    animation: slide 8s linear infinite;
+    animation: slide 10s linear infinite;
 }
 
 .school-img {
@@ -347,18 +347,18 @@ body.dark-mode .mode-toggle {
 }
 
 @keyframes slide {
-    0% {
-        transform: translateY(0);
+    10% {
+        transform: translateY(50%);
     }
     100% {
-        transform: translateY(-500%);
+        transform: translateY(-400%);
     }
 }
 
 
 @keyframes slideDown {
     from {
-        transform: translateY(-100%);
+        transform: translateY(-50%);
     }
     to {
         transform: translateY(0);
