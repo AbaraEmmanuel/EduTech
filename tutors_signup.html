@@ -162,6 +162,56 @@
                 video.src = URL.createObjectURL(file);
             }
         });
-    </script>     
+    </script>
+    <script type="module">
+        // Import the Firebase modules
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js";
+        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js";
+    
+        // Firebase configuration (replace with your Firebase project details)
+        const firebaseConfig = {
+            apiKey: "AIzaSyDn0sCZM1034UP8oAm2L2LHvF440QaVzu4",
+            authDomain: "edtech-fc816.firebaseapp.com",
+            projectId: "edtech-fc816",
+            storageBucket: "edtech-fc816.firebasestorage.app",
+            messagingSenderId: "996383017899",
+            appId: "1:996383017899:web:d56648f25b527b67f5e0ee",
+            measurementId: "G-77Y00DED1T"
+        };
+    
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+    
+        // Form submission handling
+        document.querySelector('form').addEventListener('submit', async (event) => {
+            event.preventDefault(); // Prevent the default form submission
+    
+            // Collect form data
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const subject = Array.from(document.getElementById('subject').selectedOptions).map(opt => opt.value);
+            const bio = document.getElementById('bio').value;
+            const video = document.getElementById('video').files[0];
+    
+            try {
+                // Save form data to Firestore
+                await addDoc(collection(db, "tutors"), {
+                    name: name,
+                    email: email,
+                    subject: subject,
+                    bio: bio,
+                    videoFileName: video ? video.name : null, // Only store the file name
+                    timestamp: new Date()
+                });
+    
+                alert('Form submitted successfully!');
+                event.target.reset(); // Clear the form after submission
+            } catch (error) {
+                console.error('Error adding document: ', error);
+                alert('An error occurred while submitting the form.');
+            }
+        });
+    </script>       
 </body>
 </html>
