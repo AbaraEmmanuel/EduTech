@@ -1,24 +1,30 @@
-import { showNotification } from './notification.js'; // Import from notification.js
+import { showNotification } from './notification.js'; // Import notification
 import { auth, db } from './firebase.js'; // Import auth and db from firebase.js
 import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
 import { setDoc, doc, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
 
 document.querySelector('.form-container form').addEventListener('submit', async (e) => {
-    e.preventDefault(); // Prevent page reload
+    e.preventDefault(); // Prevent form from reloading the page
 
     showNotification('Processing your registration...', 'Loading');
 
     // Get form inputs
-    const name = e.target.name.value;
-    const email = e.target.email.value;
+    const name = e.target.name.value.trim();
+    const email = e.target.email.value.trim();
     const subjects = Array.from(e.target.subject.selectedOptions).map(option => option.value);
-    const bio = e.target.bio.value;
-    const videoUrl = e.target.videoUrl.value.trim(); // YouTube video URL
+    const bio = e.target.bio.value.trim();
+    const videoUrl = e.target.videoUrl.value.trim(); // YouTube video link
 
     // Validate inputs
+    if (!name || !email || !bio || !videoUrl) {
+        showNotification('Please fill in all the fields.', 'error');
+        return;
+    }
+
+    // Validate YouTube link
     const youtubeRegex = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/.+$/;
     if (!youtubeRegex.test(videoUrl)) {
-        showNotification('Please provide a valid YouTube video URL.', 'error');
+        showNotification('Please provide a valid YouTube link.', 'error');
         return;
     }
 
@@ -34,7 +40,7 @@ document.querySelector('.form-container form').addEventListener('submit', async 
             email,
             subjects,
             bio,
-            videoUrl, // Save the YouTube video URL
+            videoUrl, // Store YouTube link instead of video file
             createdAt: serverTimestamp(),
         });
 
@@ -45,6 +51,7 @@ document.querySelector('.form-container form').addEventListener('submit', async 
             window.location.href = 'tutor_dashboard.html';
         }, 3000);
     } catch (error) {
+        console.error('Error signing up:', error);
         showNotification(`Error: ${error.message}`, 'error');
     }
 });
