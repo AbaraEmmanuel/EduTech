@@ -171,3 +171,21 @@ form small {
     display: block;
     margin-top: 4px;
 }
+
+.confirmation-message {
+    text-align: center;
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid #4caf50;
+    background-color: #e8f5e9;
+    border-radius: 5px;
+}
+
+.confirmation-message p {
+    font-size: 16px;
+    color: #2e7d32;
+}
+
+.confirmation-message strong {
+    font-weight: bold;
+}

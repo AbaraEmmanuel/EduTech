@@ -44,12 +44,18 @@ document.querySelector('.form-container form').addEventListener('submit', async 
             createdAt: serverTimestamp(),
         });
 
+        // Show success message
         showNotification('Tutor sign-up successful!', 'success');
 
-        // Redirect to the tutors dashboard or confirmation page
-        setTimeout(() => {
-            window.location.href = 'tutor_dashboard.html';
-        }, 3000);
+        // Display an assurance message in the UI
+        const confirmationMessage = `
+            <div class="confirmation-message">
+                <p>Thank you for signing up, <strong>${name}</strong>!</p>
+                <p>We have received your application and will contact you via email at <strong>${email}</strong> within the next 48 hours for further information.</p>
+            </div>
+        `;
+        document.querySelector('.form-container').innerHTML = confirmationMessage;
+
     } catch (error) {
         console.error('Error signing up:', error);
         showNotification(`Error: ${error.message}`, 'error');
