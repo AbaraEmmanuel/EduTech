@@ -1,8 +1,7 @@
 import { showNotification } from './notification.js'; // Import from notification.js
-import { auth, db, storage } from './firebase.js'; // Import auth, db, and storage from firebase.js
+import { auth, db } from './firebase.js'; // Import auth and db from firebase.js
 import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
 import { setDoc, doc, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
-import { ref, uploadBytes } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-storage.js";
 
 document.querySelector('.form-container form').addEventListener('submit', async (e) => {
     e.preventDefault(); // Prevent page reload
@@ -14,11 +13,12 @@ document.querySelector('.form-container form').addEventListener('submit', async 
     const email = e.target.email.value;
     const subjects = Array.from(e.target.subject.selectedOptions).map(option => option.value);
     const bio = e.target.bio.value;
-    const videoFile = e.target.video.files[0]; // Video file
+    const videoUrl = e.target.videoUrl.value.trim(); // YouTube video URL
 
     // Validate inputs
-    if (!videoFile) {
-        showNotification('Please upload a video.', 'error');
+    const youtubeRegex = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/.+$/;
+    if (!youtubeRegex.test(videoUrl)) {
+        showNotification('Please provide a valid YouTube video URL.', 'error');
         return;
     }
 
@@ -28,18 +28,13 @@ document.querySelector('.form-container form').addEventListener('submit', async 
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
 
-        // Upload video to Firebase Storage
-        const videoRef = ref(storage, `tutors/${user.uid}/intro_video.mp4`);
-        await uploadBytes(videoRef, videoFile);
-        showNotification('Video uploaded successfully!', 'success');
-
         // Save tutor data to Firestore
         await setDoc(doc(db, 'tutors', user.uid), {
             name,
             email,
             subjects,
             bio,
-            videoPath: `tutors/${user.uid}/intro_video.mp4`,
+            videoUrl, // Save the YouTube video URL
             createdAt: serverTimestamp(),
         });
 
