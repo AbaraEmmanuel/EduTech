@@ -52,6 +52,41 @@
     </div>
 
     <main>
+        <div class="intro-section">
+            <h2>Congratulations on Taking the First Step to Becoming a Tutor!</h2>
+            <p>
+                We are thrilled that you are considering joining our esteemed community of tutors. This is a decision you will not regret, as it opens doors to a fulfilling and rewarding experience.
+            </p>
+            <p class="important-note">
+                <strong>Important:</strong> Please fill out the form below with utmost care, as the information you provide will determine your eligibility for admission as a tutor.
+            </p>
+            <h3>Detailed Guidelines for Each Question</h3>
+            <ul>
+                <li>
+                    <strong>Full Name:</strong> Provide your full name, including your first and last names, as they appear on your official documents.
+                </li>
+                <li>
+                    <strong>Email Address:</strong> Ensure that you input your correct email address, as this will be our primary means of contacting you if necessary.
+                </li>
+                <li>
+                    <strong>Subjects:</strong> Select the subject(s) you are interested in teaching. You may choose one or multiple subjects.
+                    <br>
+                    <small>On larger screens (laptop, desktop, etc.), hold down the Ctrl key while clicking to select multiple subjects.</small>
+                </li>
+                <li>
+                    <strong>Biography:</strong> Share a brief yet compelling overview of yourself, including your teaching experience, relevant achievements, and anything else you'd like us to know. Use this opportunity to stand out and be creative!
+                </li>
+                <li>
+                    <strong>YouTube Introduction Video Link:</strong> Create a short video of 2 minutes or less where you introduce yourself. Highlight your qualifications, certifications, achievements, and teaching capabilities. Convince us why you are the perfect fit for our students! Upload the video to YouTube and paste the link in the provided textbox.
+                </li>
+            </ul>
+            <h4>How the Application Process Works</h4>
+            <p>
+                Once you submit your application, our team will thoroughly review it and get back to you within 48 hours. If necessary, we may request additional documentation to verify your qualifications.
+            </p>
+            <p class="best-of-luck">We wish you the very best of luck in your application process!</p>
+        </div>
+        
         <div class="form-container">
             <h1>Sign Up as a Tutor</h1>
             <form>
@@ -70,8 +105,16 @@
                     <option value="programming">Programming</option>
                 </select>
                 
-                <label for="bio">Short Bio</label>
+                <label for="bio">Biography</label>
                 <textarea id="bio" name="bio" rows="4" placeholder="Tell us a little about yourself"></textarea>
+
+                <label for="gender">Gender</label>
+                <select id="gender" name="gender" required>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="prefer-not-to-say">Prefer not to say</option>
+                </select>
+
             
                 <!-- Video introduction field -->
                 <label for="videoUrl">YouTube Introduction Video Link</label>

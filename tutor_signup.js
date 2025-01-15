@@ -14,9 +14,11 @@ document.querySelector('.form-container form').addEventListener('submit', async 
     const subjects = Array.from(e.target.subject.selectedOptions).map(option => option.value);
     const bio = e.target.bio.value.trim();
     const videoUrl = e.target.videoUrl.value.trim(); // YouTube video link
+    const gender = e.target.gender.value;
+
 
     // Validate inputs
-    if (!name || !email || !bio || !videoUrl) {
+    if (!name || !email || !bio || !videoUrl || !gender) {
         showNotification('Please fill in all the fields.', 'error');
         return;
     }
@@ -40,7 +42,8 @@ document.querySelector('.form-container form').addEventListener('submit', async 
             email,
             subjects,
             bio,
-            videoUrl, // Store YouTube link instead of video file
+            videoUrl,
+            gender,
             createdAt: serverTimestamp(),
         });
 
@@ -61,3 +64,4 @@ document.querySelector('.form-container form').addEventListener('submit', async 
         showNotification(`Error: ${error.message}`, 'error');
     }
 });
+

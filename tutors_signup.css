@@ -1,8 +1,57 @@
+.intro-section {
+    /* background-color: #f9f9f9; */
+    padding: 20px 30px;
+    border: 1.5px solid #4b134f;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.intro-section h2 {
+    font-size: 24px;
+    /* color: #2c3e50; */
+    margin-bottom: 10px;
+}
+
+.intro-section p {
+    font-size: 16px;
+    /* color: #555; */
+    line-height: 1.6;
+}
+
+.intro-section .important-note {
+    color: #e74c3c;
+    font-weight: bold;
+}
+
+.intro-section h3,
+.intro-section h4 {
+    font-size: 20px;
+    color: #004890;
+    margin-top: 15px;
+}
+
+.intro-section ul {
+    padding-left: 20px;
+    margin-top: 10px;
+}
+
+.intro-section ul li {
+    font-size: 16px;
+    /* color: #555; */
+    margin-bottom: 10px;
+}
+
+.best-of-luck {
+    font-style: italic;
+    color: #1aa052;
+    margin-top: 15px;
+}
+
 .tutors-signup-form {
     max-width: 600px;
     margin: 0 auto;
     padding: 20px;
-    background: #f9f9f9;
+    /* background: #f9f9f9; */
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     font-family: 'Arial', sans-serif;
@@ -59,6 +108,7 @@
   
   /* Form container styling */
 .form-container {
+    margin-top: 20px;
     width: 100%;
     max-width: 600px;
     margin: 2rem auto;
@@ -191,7 +241,7 @@ form small {
 }
 
 /* Responsive Styles for Smaller Screens */
-@media (max-width: 768px) {
+@media screen and (max-width: 768px) {
     .tutors-signup-form {
         padding: 15px;
         box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
@@ -218,10 +268,31 @@ form small {
         padding: 12px;
         font-size: 1rem;
     }
+
+    .form-container {
+        width: 70%;
+        margin: 2rem auto;
+        padding: 2rem;
+        border-radius: 15px;
+        box-shadow: 0 9px 11px rgba(255, 0, 140, 0.972);
+        font-family: 'Arial', 'sans-serif';
+    }
+
+    form input,
+    form textarea,
+    form select {
+        width: 90%;
+        padding: 8px;
+        color: rgba(0, 67, 17, 0.765);
+        border: 3px solid red;
+        border-radius: 5px;
+        font-size: auto;
+        transition: border-color 0.2s ease;
+    }
 }
 
 /* Further Adjustments for Very Small Screens */
-@media (max-width: 480px) {
+@media screen and (max-width: 480px) {
     .tutors-signup-form {
         padding: 10px;
     }
@@ -235,6 +306,7 @@ form small {
     }
 
     .tutors-signup-form button {
+        
         padding: 10px;
         font-size: 0.9rem;
     }
