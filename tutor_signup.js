@@ -1,5 +1,5 @@
 import { showNotification } from './notification.js'; // Import notification
-import { auth, db } from './firebase.js'; // Import auth and db from firebase.js
+import { auth, db } from './firebasetutors.js'; // Import auth and db from firebase.js
 import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
 import { setDoc, doc, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
 

@@ -25,7 +25,7 @@ body.dark-mode {
 
 /* Hero Section */
 .hero {
-    background: linear-gradient(to bottom right, #4caf50, #8bc34a);
+    background: linear-gradient(to bottom right, #32cd32, #ff1493);
     text-align: center;
     padding: 60px 20px;
 }
@@ -495,10 +495,10 @@ body.dark-mode .mode-toggle {
 }
 
 .button_login {
-    background: linear-gradient(135deg, #4000d4, #090225);
+    background: linear-gradient(135deg, #ff1493, #32cd32);
     color: white;
     padding: 10px;
-    border: 2px solid #000306;
+    border: 1px solid white;
     border-radius: 10px;
     font-size: 1rem;
     cursor: pointer;
@@ -723,9 +723,9 @@ body {
 }
 
 /* Added Smooth Scroll */
-html {
+/* html {
     scroll-behavior: smooth;
-}
+} */
 
 /* Elevated Card Styling */
 .card {
