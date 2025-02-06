@@ -11,6 +11,12 @@ document.querySelector('.sign-in-form').addEventListener('submit', async (e) => 
 
     console.log('Form submitted:', email, password); // Debug: Check form values
 
+
+    if (!email || !password) {
+        alert("Please fill in both fields.");
+        return;
+    }
+
     try {
         // Firebase Authentication Sign In
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
@@ -23,7 +29,7 @@ document.querySelector('.sign-in-form').addEventListener('submit', async (e) => 
 
         // Delay the redirect to ensure the notification shows first
         setTimeout(() => {
-            window.location.href = 'index.html';  // Redirect to dashboard after successful sign-in
+            window.location.href = 'tutor_dashboard.html';  // Redirect to dashboard after successful sign-in
         }, 2000); // 2-second delay to show the notification
 
     } catch (error) {
