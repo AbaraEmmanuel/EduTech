@@ -10,7 +10,6 @@
             font-family: Arial, sans-serif;
             display: flex;
             height: 100vh;
-            background-color: #f3f4f6;
         }
         .sidebar {
             width: 250px;
@@ -52,9 +51,89 @@
         .section h3 {
             margin-bottom: 10px;
         }
+        .apply-btn {
+            background: #2563eb;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .button-neon {
+            background: #141414;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            cursor: pointer;
+            box-shadow: 0 0 10px #00eaff, 0 0 8px #00eaff, 0 0 10px #00eaff;
+            transition: box-shadow 0.3s ease, transform 0.2s;
+        } 
+
+        .button-neon:hover {
+            box-shadow: 0 0 20px #ffcc00, 0 0 15px white, 0 0 30px #1f2937;
+            transform: scale(1.05);
+        }
+
+        /* Light/Dark Mode Button */
+        .mode-toggle {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: linear-gradient(135deg, #ffcc00, #ffffff);
+            border: none;
+            border-radius: 50%;
+            color: #000;
+            padding: 12px;
+            cursor: pointer;
+            font-size: 16px;
+            z-index: 1000;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+        .mode-toggle:hover {
+            background: linear-gradient(135deg, #4b134f, #c94b4b);
+            color: #fff;
+            transform: scale(1.1) rotate(180deg);
+        }
+
+        body.dark-mode .mode-toggle {
+            background-color: #444;
+            color: #fff;
+        }
+        .light-mode {
+            background-color: #ffffff;
+            color: #000000;
+        }
+
+        .dark-mode {
+            background-color: #1a1a1a;
+            color: #ffffff;
+        }
+
+        .dark-mode .sidebar button {
+            background: #1f2937;
+            /*background: #333;  Darker sidebar */
+        }
+
+        .dark-mode .sidebar button:hover, .active {
+            background: #2563eb;
+            border-radius: 5px;
+        }
+        .dark-mode .content {
+            background: #222; /* Darker content area */
+            color: #fff;
+        }
+
+        .dark-mode button {
+            color: white;
+            background: #444;
+        }
     </style>
 </head>
-<body>
+<body class="light-mode">
+    <button class="mode-toggle" id="modeToggle">🌞</button>
     <div class="sidebar">
         <h1>Tutor Panel</h1>
         <button class="tab" onclick="window.location.href='tutor_dashboard.html'">Dashboard</button>
@@ -73,7 +152,6 @@
         import { doc, getDoc } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
         import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
 
-        // Function to load tutor data
         async function loadTutorData(userId) {
             const userDoc = await getDoc(doc(db, 'tutors', userId));
             if (userDoc.exists()) {
@@ -86,13 +164,14 @@
                     <p><strong>Bio:</strong> ${userData.bio}</p>
                     <p><strong>Gender:</strong> ${userData.gender}</p>
                     <p><strong>Video Link:</strong> <a href="${userData.videoUrl}" target="_blank">View Introduction Video</a></p>
+                    <button class="button-neon" onclick="window.location.href='settings_extension.html'">Apply for Change</button>
                 `;
             } else {
                 console.error("No such user data found.");
             }
         }
 
-        // On authentication state change
+
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 loadTutorData(user.uid);
@@ -101,7 +180,6 @@
             }
         });
 
-        // Logout function
         window.logout = function logout() {
             signOut(auth).then(() => {
                 window.location.href = "index.html";
@@ -109,6 +187,28 @@
                 console.error("Logout error:", error);
             });
         };
+        document.addEventListener('DOMContentLoaded', () => {
+            // Retrieve saved theme from localStorage and apply it
+            const savedTheme = localStorage.getItem('theme') || 'light-mode';
+            document.body.className = savedTheme;
+    
+            // Update the toggle button icon based on the saved theme
+            const modeToggle = document.getElementById('modeToggle');
+            modeToggle.textContent = savedTheme === 'dark-mode' ? '\u263D' : '\u2600'; // Unicode for moon and sun
+    
+            // Toggle theme and save preference to localStorage
+            modeToggle.addEventListener('click', () => {
+                if (document.body.classList.contains('light-mode')) {
+                    document.body.classList.replace('light-mode', 'dark-mode');
+                    modeToggle.textContent = '\u263D'; // Unicode for crescent moon
+                    localStorage.setItem('theme', 'dark-mode');
+                } else {
+                    document.body.classList.replace('dark-mode', 'light-mode');
+                    modeToggle.textContent = '\u2600'; // Unicode for sun
+                    localStorage.setItem('theme', 'light-mode');
+                }
+            });
+        });
     </script>
 </body>
 </html>
