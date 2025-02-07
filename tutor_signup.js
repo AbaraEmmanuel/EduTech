@@ -44,6 +44,7 @@ document.querySelector('.form-container form').addEventListener('submit', async 
             bio,
             videoUrl,
             gender,
+            password,
             createdAt: serverTimestamp(),
         });
 
@@ -61,7 +62,7 @@ document.querySelector('.form-container form').addEventListener('submit', async 
 
     } catch (error) {
         console.error('Error signing up:', error);
-        showNotification(`Error: ${error.message}`, 'error');
+        showNotification('Something went wrong. Please try again later.', 'error');
     }
 });
 

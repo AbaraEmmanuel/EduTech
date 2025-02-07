@@ -16,7 +16,7 @@ document.querySelector('.sign-in-form').addEventListener('submit', async (e) => 
         alert("Please fill in both fields.");
         return;
     }
-
+    showNotification('...', 'Loading')
     try {
         // Firebase Authentication Sign In
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
@@ -35,6 +35,6 @@ document.querySelector('.sign-in-form').addEventListener('submit', async (e) => 
     } catch (error) {
         console.error('Sign-in error:', error);  // Debug: Log error message
         // Handle errors and show notification
-        showNotification(`Error: ${error.message}`, 'error');
+        showNotification('Something went wrong. Please try again later.', 'error');
     }
 });

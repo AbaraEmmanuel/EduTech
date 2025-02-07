@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tutor Settings</title>
+    <link rel="stylesheet" href="notification.css">
     <style>
         body {
             margin: 0;
@@ -74,6 +75,62 @@
         .button-neon:hover {
             box-shadow: 0 0 20px #ffcc00, 0 0 15px white, 0 0 30px #1f2937;
             transform: scale(1.05);
+        }
+        .modal {
+            display: none; /* Initially hidden */
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background: #222;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            width: 300px;
+            box-shadow: 0 0 15px #00eaff;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        .modal-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        .confirm-btn, .cancel-btn {
+            flex: 1;
+            margin: 5px;
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .confirm-btn {
+            background: #00eaff;
+            color: #000;
+        }
+        .confirm-btn:hover {
+            background: #ffcc00;
+            box-shadow: 0 0 10px white;
+        }
+        .cancel-btn {
+            background: #444;
+            color: white;
+        }
+        .cancel-btn:hover {
+            background: #ff3b3b;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
         }
 
         /* Light/Dark Mode Button */
@@ -146,31 +203,23 @@
             <p>Loading...</p>
         </div>
     </div>
+
+    <div id="confirmationModal" class="modal">
+        <div class="modal-content">
+            <h3>Are you sure?</h3>
+            <p>Do you want to reset your password?</p>
+            <div class="modal-buttons">
+                <button class="confirm-btn" id="confirmReset">Confirm</button>
+                <button class="cancel-btn" id="cancelReset">Cancel</button>
+            </div>
+        </div>
+    </div>
     
     <script type="module">
         import { auth, db } from './firebasetutors.js';
         import { doc, getDoc } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
-        import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
-
-        async function loadTutorData(userId) {
-            const userDoc = await getDoc(doc(db, 'tutors', userId));
-            if (userDoc.exists()) {
-                const userData = userDoc.data();
-                document.getElementById("settings-content").innerHTML = `
-                    <h3>Your Information</h3>
-                    <p><strong>Name:</strong> ${userData.name}</p>
-                    <p><strong>Email:</strong> ${userData.email}</p>
-                    <p><strong>Subjects:</strong> ${userData.subjects.join(', ')}</p>
-                    <p><strong>Bio:</strong> ${userData.bio}</p>
-                    <p><strong>Gender:</strong> ${userData.gender}</p>
-                    <p><strong>Video Link:</strong> <a href="${userData.videoUrl}" target="_blank">View Introduction Video</a></p>
-                    <button class="button-neon" onclick="window.location.href='settings_extension.html'">Apply for Change</button>
-                `;
-            } else {
-                console.error("No such user data found.");
-            }
-        }
-
+        import { onAuthStateChanged, signOut, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
+        import { showNotification } from './notification.js';  // Import from notification.js
 
         onAuthStateChanged(auth, (user) => {
             if (user) {
@@ -209,6 +258,61 @@
                 }
             });
         });
+        function attachResetPasswordListener() {
+            const resetButton = document.getElementById("resetPasswordButton");
+            if (resetButton) {
+                resetButton.addEventListener("click", () => {
+                    document.getElementById("confirmationModal").style.display = "flex";
+                });
+
+                document.getElementById("cancelReset").addEventListener("click", () => {
+                    document.getElementById("confirmationModal").style.display = "none";
+                });
+
+                document.getElementById("confirmReset").addEventListener("click", async () => {
+                    const user = auth.currentUser;
+                    if (user && user.email) {
+                        try {
+                            await sendPasswordResetEmail(auth, user.email);
+                            showNotification("Password reset email sent! Check your inbox.");
+                        } catch (error) {
+                            console.error("Error sending reset email:", error);
+                            showNotification('Something went wrong. Please try again later.', 'error');
+                        }
+                    } else {
+                        showNotification("No user is logged in.");
+                    }
+                    document.getElementById("confirmationModal").style.display = "none";
+                });
+            }
+        }
+
+
+
+        // Modify loadTutorData to call the function after updating the DOM
+        async function loadTutorData(userId) {
+            const userDoc = await getDoc(doc(db, 'tutors', userId));
+            if (userDoc.exists()) {
+                const userData = userDoc.data();
+                document.getElementById("settings-content").innerHTML = `
+                    <h3>Your Information</h3>
+                    <p><strong>Name:</strong> ${userData.name}</p>
+                    <p><strong>Email:</strong> ${userData.email}</p>
+                    <p><strong>Subjects:</strong> ${userData.subjects.join(', ')}</p>
+                    <p><strong>Bio:</strong> ${userData.bio}</p>
+                    <p><strong>Gender:</strong> ${userData.gender}</p>
+                    <p><strong>Video Link:</strong> <a href="${userData.videoUrl}" target="_blank">View Introduction Video</a></p>
+                    <button class="button-neon" id="resetPasswordButton">Reset Password</button>
+                    <button class="button-neon" onclick="window.location.href='settings_extension.html'">Apply for Change</button>
+                `;
+
+                // Attach event listener after button is added to DOM
+                attachResetPasswordListener();
+            } else {
+                console.error("No such user data found.");
+            }
+        }
+
     </script>
 </body>
 </html>
