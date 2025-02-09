@@ -11,7 +11,7 @@
       { "source": "/tutors-signin", "destination": "/tutors-sign_in.html" },
       { "source": "/tutors_signup", "destination": "/tutors_signup.html" },
       { "source": "/tutors-dashboard", "destination": "/tutors_dashboard.html" },
-      { "source": "/difference", "destination": "/difference.html" },
+      { "source": "/difference", "destination": "/diffference.html" },
       { "source": "/packages", "destination": "/packages.html" },
       { "source": "/tutors", "destination": "/tutors.html" },
       { "source": "/apply-change", "destination": "/apply_change.html" }
