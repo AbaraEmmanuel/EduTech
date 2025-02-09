@@ -9,7 +9,7 @@
       { "source": "/signup", "destination": "/sign_up.html" },
       { "source": "/signin", "destination": "/sign_in.html" },
       { "source": "/tutors-signin", "destination": "/tutors-sign_in.html" },
-      { "source": "/tutors_signup", "destination": "/tutors-signup.html" },
+      { "source": "/tutors_signup", "destination": "/tutors_signup.html" },
       { "source": "/tutors-dashboard", "destination": "/tutors_dashboard.html" },
       { "source": "/difference", "destination": "/difference.html" },
       { "source": "/packages", "destination": "/packages.html" },
