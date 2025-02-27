@@ -65,7 +65,10 @@
             </label>
             <label>
                 Password
-                <input type="password" name="password" placeholder="Create a password" required>
+                <div class="password-container">
+                    <input type="password" id="password" name="password" placeholder="Create a password" required>
+                    <span class="toggle-password" onclick="togglePassword()">👁️</span>
+                </div>
             </label>
             <label>
                 Confirm Password
@@ -87,11 +90,42 @@
             Already have an account? <a href="sign_in.html">Sign In</a>
         </div>
     </div>
-    
-    
+
+<style>
+    .password-container {
+        position: relative;
+        width: 100%;
+    }
+
+    .password-container input {
+        width: 95%;
+    }
+
+    .toggle-password {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        user-select: none;
+    }
+</style>
 
     <!-- JavaScript -->
     <script>
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const icon = document.querySelector('.toggle-password');
+
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.textContent = '🙈'; // Closed eye
+            } else {
+                passwordInput.type = 'password';
+                icon.textContent = '👁️'; // Open eye
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             // Retrieve saved theme from localStorage and apply it
             const savedTheme = localStorage.getItem('theme') || 'light-mode';
