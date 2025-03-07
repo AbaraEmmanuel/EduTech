@@ -1,7 +1,10 @@
-
 import { showNotification } from './notification.js'; // Import notification
 import { auth, db } from './firebasetutors.js'; // Import auth and db from firebase.js
-import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
+import { 
+    createUserWithEmailAndPassword, 
+    sendEmailVerification 
+} from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
+
 import { setDoc, doc, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
 
 document.querySelector('.form-container form').addEventListener('submit', async (e) => {
@@ -14,9 +17,8 @@ document.querySelector('.form-container form').addEventListener('submit', async 
     const email = e.target.email.value.trim();
     const subjects = Array.from(e.target.subject.selectedOptions).map(option => option.value);
     const bio = e.target.bio.value.trim();
-    const videoUrl = e.target.videoUrl.value.trim(); // YouTube video link
+    const videoUrl = e.target.videoUrl.value.trim();
     const gender = e.target.gender.value;
-
 
     // Validate inputs
     if (!name || !email || !bio || !videoUrl || !gender) {
@@ -33,9 +35,12 @@ document.querySelector('.form-container form').addEventListener('submit', async 
 
     try {
         // Firebase Authentication Sign Up
-        const password = 'temporaryPassword123'; // Generate or prompt for a secure password
+        const password = 'temporaryPassword123'; // Use your actual password logic
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
+
+        // Send email verification
+        await sendEmailVerification(user);
 
         // Save tutor data to Firestore
         await setDoc(doc(db, 'tutors', user.uid), {
@@ -50,13 +55,13 @@ document.querySelector('.form-container form').addEventListener('submit', async 
         });
 
         // Show success message
-        showNotification('Tutor sign-up successful!', 'success');
+        showNotification('Sign-up successful! Please check your email to verify your account.', 'success');
 
-        // Display an assurance message in the UI
+        // Display email verification message in the UI
         const confirmationMessage = `
             <div class="confirmation-message">
                 <p>Thank you for signing up, <strong>${name}</strong>!</p>
-                <p>We have received your application and will contact you via email at <strong>${email}</strong> within the next 48 hours for further information.</p>
+                <p>We have sent a verification email to <strong>${email}</strong>. Please check your inbox and verify your email address before you can sign in.</p>
             </div>
         `;
         document.querySelector('.form-container').innerHTML = confirmationMessage;

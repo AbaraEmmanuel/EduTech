@@ -11,18 +11,27 @@ document.querySelector('.sign-in-form').addEventListener('submit', async (e) => 
 
     console.log('Form submitted:', email, password); // Debug: Check form values
 
-
     if (!email || !password) {
         alert("Please fill in both fields.");
         return;
     }
-    showNotification('...', 'Loading')
+
+    showNotification('...', 'Loading');
+
     try {
         // Firebase Authentication Sign In
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
 
         console.log('User signed in:', user);  // Debug: Check user info
+
+        // Check if the user's email is verified
+        if (!user.emailVerified) {
+            showNotification('Please verify your email before signing in.', 'error');
+            // Optionally, sign the user out immediately to prevent session creation
+            auth.signOut();
+            return; // Stop the login process here
+        }
 
         // Show notification on successful sign-in
         showNotification('Sign-in successful!', 'success');
@@ -34,7 +43,6 @@ document.querySelector('.sign-in-form').addEventListener('submit', async (e) => 
 
     } catch (error) {
         console.error('Sign-in error:', error);  // Debug: Log error message
-        // Handle errors and show notification
         showNotification('Something went wrong. Please try again later.', 'error');
     }
 });
