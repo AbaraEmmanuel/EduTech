@@ -40,7 +40,7 @@ body.dark-mode {
     margin-bottom: 30px;
 }
 
-.hero .cta-button {
+.cta-button {
     background-color: #ff5722;
     color: white;
     border: none;
@@ -51,7 +51,7 @@ body.dark-mode {
     transition: background-color 0.3s ease;
 }
 
-.hero .cta-button:hover {
+.cta-button:hover {
     background-color: #e64a19;
 }
 
@@ -179,7 +179,7 @@ body.dark-mode {
     margin-bottom: 30px;
 }
 
-.cta .cta-button {
+/* .cta .cta-button {
     color: #ff5722;
     border: none;
     padding: 15px 30px;
@@ -192,7 +192,7 @@ body.dark-mode {
 .cta .cta-button:hover {
     background-color: #ff5722;
     color: white;
-}
+} */
 
 
 /* Default text styling for sections */
@@ -1020,7 +1020,7 @@ body {
     margin-bottom: 30px;
 }
 
-.cta .cta-button {
+/* .cta .cta-button {
     color: #ff5722;
     border: none;
     padding: 15px 30px;
@@ -1033,7 +1033,7 @@ body {
 .cta .cta-button:hover {
     background-color: #ff5722;
     color: white;
-}
+} */
 
 /* Tutors Section */
 .section.for-tutors {
