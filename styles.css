@@ -1020,7 +1020,7 @@ body {
     margin-bottom: 30px;
 }
 
-/* .cta .cta-button {
+.cta .cta-button {
     color: #ff5722;
     border: none;
     padding: 15px 30px;
@@ -1033,7 +1033,7 @@ body {
 .cta .cta-button:hover {
     background-color: #ff5722;
     color: white;
-} */
+}
 
 /* Tutors Section */
 .section.for-tutors {
@@ -1103,4 +1103,30 @@ body {
     background: var(--highlight-color);
     transform: translateY(-3px);
     box-shadow: 0 6px 20px rgb(204, 255, 1);
+
+}
+@media (max-width: 600px) {
+    .sign-up-container {
+        width: auto;
+        padding: 15px;
+    }
+
+    .sign-up-form {
+        flex-direction: column; /* Stack inputs vertically */
+        gap: 10px;
+    }
+
+    .sign-up-form label {
+        flex: 0 0 85%; /* Make inputs full width */
+    }
+
+    .sign-up-form input,
+    .sign-up-form select {
+        width: 95%;
+    }
+
+    .sign-up-form .btn {
+        font-size: 14px;
+        padding: 12px;
+    }
 }
