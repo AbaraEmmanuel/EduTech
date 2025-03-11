@@ -179,21 +179,6 @@ body.dark-mode {
     margin-bottom: 30px;
 }
 
-/* .cta .cta-button {
-    color: #ff5722;
-    border: none;
-    padding: 15px 30px;
-    font-size: 1rem;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.cta .cta-button:hover {
-    background-color: #ff5722;
-    color: white;
-} */
-
 
 /* Default text styling for sections */
 .section {
@@ -1020,20 +1005,6 @@ body {
     margin-bottom: 30px;
 }
 
-.cta .cta-button {
-    color: #ff5722;
-    border: none;
-    padding: 15px 30px;
-    font-size: 1rem;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.cta .cta-button:hover {
-    background-color: #ff5722;
-    color: white;
-}
 
 /* Tutors Section */
 .section.for-tutors {
