@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tutor Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         body {
             margin: 0;
@@ -115,15 +116,26 @@
 
     <div class="sidebar">
             <h1>Tutor Panel</h1>
-            <button class="tab" onclick="showTab('dashboard')">Dashboard</button>
-            <button class="tab" onclick="showTab('students')">Students</button>
-            <button class="tab" onclick="showTab('courses')">Courses</button>
-            <button class="tab" onclick="showTab('notifications')">Notifications</button>
-            <button class="tab" onclick="showTab('schedule')">Schedule</button>
-            <button class="tab" onclick="showTab('payments')">Payments</button>
-            <button class="tab" onclick="showTab('Messages')">Messages</button>
-            <button class="tab" onclick="window.location.href='settings.html'">Settings</button>
-            <button class="tab logout-btn" onclick="logout()">Logout</button>
+            <button class="tab" onclick="showTab('dashboard')">
+                <i class="fas fa-tachometer-alt"></i>Dashboard</button>
+            <button class="tab" onclick="showTab('students')">
+                <i class="fas fa-user-graduate"></i>Students</button>
+            <button class="tab" onclick="showTab('curriculum')">
+                <i class="fas fa-book-open"></i>Curriculum</button>
+            <button class="tab" onclick="showTab('notifications')">
+                <i class="fas fa-bell"></i>Notifications</button>
+            <button class="tab" onclick="showTab('schedule')">
+                <i class="fas fa-calendar-alt"></i>Schedule</button>
+            <button class="tab" onclick="showTab('payments')">
+                <i class="fas fa-credit-card"></i>Payments</button>
+            <button class="tab" onclick="showTab('Messages')">
+                <i class="fas fa-envelope"></i>Messages</button>
+            <button class="tab" onclick="window.location.href=''">
+                <i class="fab fa-discord"></i>Discord</button>
+            <button class="tab" onclick="window.location.href='settings.html'">
+                <i class="fas fa-user"></i>My Profile</button>
+            <button class="tab logout-btn" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i>Logout</button>
     </div>
     <div class="content" id="content">
         <div id="dashboard-content">
