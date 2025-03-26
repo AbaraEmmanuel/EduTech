@@ -13,8 +13,7 @@ document.querySelector('.sign-up-form').addEventListener('submit', async (e) => 
     const email = e.target.email.value;
     const password = e.target.password.value;
     const confirmPassword = e.target['confirm-password'].value;
-    const role = e.target.role.value;
-
+    const phoneNumber = e.target['phone-number'].value;
 
     // Ensure passwords match
     if (password !== confirmPassword) {
@@ -33,36 +32,19 @@ document.querySelector('.sign-up-form').addEventListener('submit', async (e) => 
             lastName,
             password,
             email,
-            role,
+            phoneNumber,
             createdAt: serverTimestamp(),
         });
 
-
-        // Redirect to the appropriate payment page based on the selected plan
-        let paymentPage = '';
-        switch (role) {
-            case 'basicplan':
-                paymentPage = 'basic_payment.html';
-                break;
-            case 'proplan':
-                paymentPage = 'pro_payment.html';
-                break;
-            case 'premiumplan':
-                paymentPage = 'premium_payment.html';
-                break;
-            default:
-                paymentPage = 'error.html'; // Fallback in case of an unknown role
-        }
-
-                
         // Show notification on successful signup
-        showNotification('Sign-up successful!', 'success');
+        showNotification('Sign-up successful! Redirecting...', 'success');
 
-        console.log('Redirecting to:', paymentPage);
+        console.log('Redirecting to: courses.html');
+
         // Redirect after 2 seconds to allow time for the success notification
         setTimeout(() => {
-            window.location.href = paymentPage;
-        }, 3000);
+            window.location.href = 'courses.html';
+        }, 2000);
 
     } catch (error) {
         showNotification(`Error: ${error.message}`, 'error');

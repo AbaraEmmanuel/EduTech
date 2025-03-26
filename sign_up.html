@@ -64,6 +64,10 @@
                 <input type="email" name="email" placeholder="Enter your email" required>
             </label>
             <label>
+                Phone Number
+                <input type="tel" name="phone-number" placeholder="+234" value="+234 " required>
+            </label>
+            <label>
                 Password
                 <div class="password-container">
                     <input type="password" id="password" name="password" placeholder="Create a password" required>
@@ -77,15 +81,6 @@
                     <span class="toggle-password" onclick="togglePassword('confirm-password', this)">👁️</span>
                 </div>
             </label>            
-            <label>
-                Packages
-                <select name="role" required>
-                    <option value="">Select Package</option>
-                    <option value="basicplan">Basic Plan - $10</option>
-                    <option value="proplan">Pro Plan - $30</option>
-                    <option value="premiumplan">Premium Plan - $50</option>
-                </select>                
-            </label>
             <button type="submit" class="btn">Sign Up</button>
             <p class="terms-link">By signing up, you agree to our <a href="#">Terms of Service</a>.</p>
         </form>

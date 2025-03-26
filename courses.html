@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduTech - Tutor Page</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 800px;
+            margin: 40px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
+        }
+
+        .dark-mode .container {
+            background: #333;
+            color: white;
+            box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.1);
+        }
+
+
+        .dropdown {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin: 10px 0;
+            padding: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            position: relative;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .dark-mode .dropdown {
+            background: #444;
+            color: white;
+            border: 1px solid #777;
+        }
+
+        .dropdown:hover {
+            background: #ececec;
+        }
+
+        .dark-mode .dropdown:hover {
+            background: #555;
+        }
+
+        .dropdown span {
+            float: right;
+            font-size: 18px;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .dropdown.open span {
+            transform: rotate(180deg);
+        }
+
+        .dropdown-content {
+            display: none;
+            background: #fafafa;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 5px;
+        }
+
+        .dark-mode .dropdown-content {
+            background: #555;
+        }
+
+        .dropdown-content a {
+            display: block;
+            padding: 8px 10px;
+            text-decoration: none;
+            color: #555;
+            border-radius: 5px;
+            transition: background 0.3s ease-in-out;
+        }
+
+        .dark-mode .dropdown-content a {
+            color: white;
+        }
+
+        .dropdown-content a:hover {
+            background: #ddd;
+        }
+
+        .dark-mode .dropdown-content a:hover {
+            background: #777;
+        }
+         /* Light/Dark Mode Button */
+        .mode-toggle {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: linear-gradient(135deg, #ffcc00, #ffffff);
+            border: none;
+            border-radius: 50%;
+            color: #000;
+            padding: 12px;
+            cursor: pointer;
+            font-size: 16px;
+            z-index: 1000;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+        .mode-toggle:hover {
+            background: linear-gradient(135deg, #4b134f, #c94b4b);
+            color: #fff;
+            transform: scale(1.1) rotate(180deg);
+        }
+
+        body.dark-mode .mode-toggle {
+            background-color: #444;
+            color: #fff;
+        }
+        .light-mode {
+            background-color: #ffffff;
+            color: #000000;
+        }
+
+        .dark-mode {
+            background-color: #1a1a1a;
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body class="light-mode">
+    <button class="mode-toggle" id="modeToggle">🌞</button>
+
+    <nav class="navbar">
+        <div class="navbar-left">
+            <a href="index.html" class="nav-link">EduTech</a>
+        </div>
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="tutors.html" class="nav-link">Tutors</a>
+    </nav>
+
+    <div class="container">
+        <h2>Available Courses</h2>
+
+        <div class="dropdown" onclick="toggleDropdown(this)">
+            Exam Preparation <span>▼</span>
+            <div class="dropdown-content">
+                <a href="#">WAEC</a>
+                <a href="#">JAMB</a>
+                <a href="#">NECO</a>
+                <a href="#">IELTS</a>
+            </div>
+        </div>
+
+        <div class="dropdown" onclick="toggleDropdown(this)">
+            Skill-Based Courses <span>▼</span>
+            <div class="dropdown-content">
+                <a href="booktutor.html?skill=french">French</a>
+                <a href="booktutor.html?skill=spanish">Spanish</a>
+                <a href="booktutor.html?skill=web-development">Web Development</a>
+                <a href="booktutor.html?skill=graphic-design">Graphic Design</a>
+                <a href="booktutor.html?skill=stem">STEM</a>
+            </div>
+        </div>        
+        </div>
+    </div>
+
+    <script>
+        function toggleDropdown(element) {
+            const content = element.querySelector('.dropdown-content');
+            const isOpen = element.classList.contains('open');
+
+            document.querySelectorAll('.dropdown').forEach(dropdown => {
+                dropdown.classList.remove('open');
+                dropdown.querySelector('.dropdown-content').style.display = 'none';
+            });
+
+            if (!isOpen) {
+                element.classList.add('open');
+                content.style.display = 'block';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Retrieve saved theme from localStorage and apply it
+            const savedTheme = localStorage.getItem('theme') || 'light-mode';
+            document.body.className = savedTheme;
+    
+            // Update the toggle button icon based on the saved theme
+            const modeToggle = document.getElementById('modeToggle');
+            modeToggle.textContent = savedTheme === 'dark-mode' ? '\u263D' : '\u2600'; // Unicode for moon and sun
+    
+            // Toggle theme and save preference to localStorage
+            modeToggle.addEventListener('click', () => {
+                if (document.body.classList.contains('light-mode')) {
+                    document.body.classList.replace('light-mode', 'dark-mode');
+                    modeToggle.textContent = '\u263D'; // Unicode for crescent moon
+                    localStorage.setItem('theme', 'dark-mode');
+                } else {
+                    document.body.classList.replace('dark-mode', 'light-mode');
+                    modeToggle.textContent = '\u2600'; // Unicode for sun
+                    localStorage.setItem('theme', 'light-mode');
+                }
+            });
+        }); 
+    </script>
+
+</body>
+</html>
