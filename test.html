@@ -4,55 +4,55 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Book a Tutor</title>
-    
+
     <!-- Firebase -->
     <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore.js"></script>
-    
+
     <!-- Styles -->
     <link rel="stylesheet" href="styles.css">    
     <style>
         body {
             font-family: 'Poppins', sans-serif;
+            transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
         }
 
         .container {
-            width: auto;
             max-width: 900px;
             margin: 40px auto;
             background: white;
             padding: 40px;
             border-radius: 10px;
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-            transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
         }
-        
+
         .dark-mode .container {
             background: #333;
             color: white;
-            box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.1);
         }
 
         .tutor-card {
-            width: 220px;
+            width: 100%;
             background: #f4f4f4;
             padding: 15px;
             margin: 10px 0;
             border-radius: 8px;
             box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
-            transition: transform 0.2s ease-in-out;
+            transition: all 0.3s ease-in-out;
+            position: relative;
+            overflow: hidden;
         }
 
         .dark-mode .tutor-card {
-            background: #333;
+            background: #222;
             color: white;
-            box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.1);
         }
 
         .tutor-card img {
-            width: 100px;
-            height: 100px;
-            border-radius: 10%;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
             margin-right: 10px;
         }
 
@@ -95,21 +95,6 @@
             animation: fadeIn 0.3s ease-in-out;
         }
 
-        .tutor-card:hover {
-            transform: scale(1.02);
-        }
-
-
-        .tutor-card h3 {
-            margin: 0;
-            font-size: 18px;
-        }
-
-        .tutor-card p {
-            margin: 5px 0;
-            font-size: 14px;
-        }
-
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(-10px); }
             to { opacity: 1; transform: translateY(0); }
@@ -128,7 +113,7 @@
         .book-btn:hover {
             background: #0056b3;
         }
-        
+
         .chat-btn {
             background: #28a745;
         }
@@ -162,8 +147,8 @@
             color: gold;
         }
 
-         /* Light/Dark Mode Button */
-         .mode-toggle {
+                 /* Light/Dark Mode Button */
+                 .mode-toggle {
             position: fixed;
             top: 10px;
             right: 10px;
@@ -216,74 +201,56 @@
             <p>Loading tutors...</p>
         </div>
     </div>
-    
 
     <script>
-         document.addEventListener('DOMContentLoaded', () => {
-            // Retrieve saved theme from localStorage and apply it
-            const savedTheme = localStorage.getItem('theme') || 'light-mode';
-            document.body.className = savedTheme;
-    
-            // Update the toggle button icon based on the saved theme
-            const modeToggle = document.getElementById('modeToggle');
-            modeToggle.textContent = savedTheme === 'dark-mode' ? '\u263D' : '\u2600'; // Unicode for moon and sun
-    
-            // Toggle theme and save preference to localStorage
-            modeToggle.addEventListener('click', () => {
-                if (document.body.classList.contains('light-mode')) {
-                    document.body.classList.replace('light-mode', 'dark-mode');
-                    modeToggle.textContent = '\u263D'; // Unicode for crescent moon
-                    localStorage.setItem('theme', 'dark-mode');
-                } else {
-                    document.body.classList.replace('dark-mode', 'light-mode');
-                    modeToggle.textContent = '\u2600'; // Unicode for sun
-                    localStorage.setItem('theme', 'light-mode');
-                }
-            });
-        }); 
-    </script>
-    <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore-compat.js"></script>    
-    <script type="module">
-        // Import Firebase modules
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-app.js";
-        import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore.js";
-        import { doc, setDoc, getDoc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore.js";
-        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-auth.js";
+        document.addEventListener('DOMContentLoaded', () => {
+           // Retrieve saved theme from localStorage and apply it
+           const savedTheme = localStorage.getItem('theme') || 'light-mode';
+           document.body.className = savedTheme;
+   
+           // Update the toggle button icon based on the saved theme
+           const modeToggle = document.getElementById('modeToggle');
+           modeToggle.textContent = savedTheme === 'dark-mode' ? '\u263D' : '\u2600'; // Unicode for moon and sun
+   
+           // Toggle theme and save preference to localStorage
+           modeToggle.addEventListener('click', () => {
+               if (document.body.classList.contains('light-mode')) {
+                   document.body.classList.replace('light-mode', 'dark-mode');
+                   modeToggle.textContent = '\u263D'; // Unicode for crescent moon
+                   localStorage.setItem('theme', 'dark-mode');
+               } else {
+                   document.body.classList.replace('dark-mode', 'light-mode');
+                   modeToggle.textContent = '\u2600'; // Unicode for sun
+                   localStorage.setItem('theme', 'light-mode');
+               }
+           });
+       }); 
+   </script>
+   <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-app-compat.js"></script>
+   <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore-compat.js"></script>    
+   <script type="module">
+            // Import Firebase modules
+            import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-app.js";
+            import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore.js";
+            // Firebase setup
 
-        // Firebase configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyBnzUWyfIDIlKtNsjlwHhA3JhR5LHhb9qU",
-            authDomain: "edtech-tutors.firebaseapp.com",
-            projectId: "edtech-tutors",
-            storageBucket: "edtech-tutors.firebasestorage.app",
-            messagingSenderId: "87645108821",
-            appId: "1:87645108821:web:ff6957f6cb738dc2bcf2dc",
-            measurementId: "G-GTXDL1WX0L"
-        };
+            const firebaseConfig = {
+                apiKey: "AIzaSyBnzUWyfIDIlKtNsjlwHhA3JhR5LHhb9qU",
+                authDomain: "edtech-tutors.firebaseapp.com",
+                projectId: "edtech-tutors",
+                storageBucket: "edtech-tutors.firebasestorage.app",
+                messagingSenderId: "87645108821",
+                appId: "1:87645108821:web:ff6957f6cb738dc2bcf2dc"
+            };
 
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
+            firebase.initializeApp(firebaseConfig);
+            const db = firebase.firestore();
 
-        // Get the selected skill from the URL
-        const urlParams = new URLSearchParams(window.location.search);
-        const skill = urlParams.get('skill');
-        document.getElementById('selectedSkill').textContent = `Available Tutors for ${skill.replace("-", " ").toUpperCase()}`;
-
-        // Fetch tutors from Firestore based on skill
-        async function fetchTutors() {
-            const tutorsList = document.getElementById("tutorsList");
-            const q = query(collection(db, "tutors"), where("subjects", "array-contains", skill));
-
-            try {
-                const querySnapshot = await getDocs(q);
+            // Fetch tutors
+            async function fetchTutors() {
+                const tutorsList = document.getElementById("tutorsList");
+                const querySnapshot = await db.collection("tutors").get();
                 tutorsList.innerHTML = "";
-
-                if (querySnapshot.empty) {
-                    tutorsList.innerHTML = "<p>No tutors available for this subject at the moment.</p>";
-                    return;
-                }
 
                 querySnapshot.forEach((doc) => {
                     const tutor = doc.data();
@@ -293,6 +260,7 @@
 
                     const tutorCard = document.createElement('div');
                     tutorCard.classList.add('tutor-card');
+
                     tutorCard.innerHTML = `
                         <div class="tutor-header" onclick="toggleDropdown('${doc.id}')">
                             <div class="tutor-info">
@@ -308,8 +276,7 @@
                         <div id="dropdown-${doc.id}" class="dropdown">
                             <p><strong>Bio:</strong> ${tutor.bio}</p>
                             <button class="book-btn" onclick="bookTutor('${tutor.name}')">Book Now</button>
-                            <button class="chat-btn" onclick="openChat('${doc.id}', '${tutor.name}')">Chat with Tutor</button>
-                            <button class="chat-btn">View Details</button>
+                            <button class="chat-btn">Chat with Tutor</button>
                             <div class="social-icons">
                                 <a href="${tutor.whatsapp}" target="_blank">📱</a>
                                 <a href="${tutor.telegram}" target="_blank">💬</a>
@@ -317,36 +284,20 @@
                             </div>
                         </div>
                     `;
-                    // tutorsList.innerHTML += tutorCard;
+
                     tutorsList.appendChild(tutorCard);
                 });
-
-            } catch (error) {
-                console.error("Error fetching tutors:", error);
-                tutorsList.innerHTML = "<p>Error loading tutors. Please try again later.</p>";
             }
-        }
 
-        window.toggleDropdown = (id) => {
+            window.toggleDropdown = (id) => {
                 document.getElementById(`dropdown-${id}`).classList.toggle('active');
             };
 
-        // Fetch tutors on page load
-        fetchTutors();
+            window.bookTutor = (name) => {
+                alert(`You booked ${name}`);
+            };
 
-        // Book a tutor function
-        window.bookTutor = function (tutorId, tutorName) {
-            if (confirm(`Do you want to book ${tutorName} as your tutor?`)) {
-                alert(`You have successfully booked ${tutorName}. Our team will contact you soon!`);
-            }
-        };
-
-        window.openChat = function(tutorId, tutorName) {
-            window.location.href = `chat.html?tutorId=${tutorId}&tutorName=${encodeURIComponent(tutorName)}`;
-        };
-
+            fetchTutors();
     </script>
-
-        
 </body>
 </html>

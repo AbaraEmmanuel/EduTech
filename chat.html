@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat with Tutor</title>
+    <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-app.js" defer></script>
+    <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore.js" defer></script>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .chat-container {
+            width: 100%;
+            max-width: 500px;
+            margin: auto;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .chat-messages {
+            height: 400px;
+            overflow-y: auto;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        .message { padding: 8px; margin: 5px; border-radius: 8px; max-width: 80%; }
+        .sent { background-color: #007bff; color: white; align-self: flex-end; }
+        .received { background-color: #f1f1f1; color: black; }
+        .message-box { display: flex; padding: 10px; }
+        input { flex: 1; padding: 8px; }
+        button { padding: 8px; background: #007bff; color: white; border: none; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <h2 id="chatTitle">Chat</h2>
+        <div id="chatMessages" class="chat-messages"></div>
+        <div class="message-box">
+            <input type="text" id="messageInput" placeholder="Type a message...">
+            <button id="sendButton">Send</button>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, query, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBnzUWyfIDIlKtNsjlwHhA3JhR5LHhb9qU",
+            authDomain: "edtech-tutors.firebaseapp.com",
+            projectId: "edtech-tutors",
+            storageBucket: "edtech-tutors.appspot.com",
+            messagingSenderId: "87645108821",
+            appId: "1:87645108821:web:ff6957f6cb738dc2bcf2dc",
+            measurementId: "G-GTXDL1WX0L"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const tutorId = urlParams.get('tutorId') || "defaultTutor";
+        const tutorName = urlParams.get('tutorName') || "Tutor";
+        document.getElementById("chatTitle").textContent = `Chat with ${tutorName}`;
+
+        let currentUser = localStorage.getItem("anonUserId");
+        if (!currentUser) {
+            currentUser = "user_" + Math.random().toString(36).substr(2, 9);
+            localStorage.setItem("anonUserId", currentUser);
+        }
+
+        let chatId = currentUser < tutorId ? `${currentUser}_${tutorId}` : `${tutorId}_${currentUser}`;
+
+        async function sendMessage() {
+            const messageInput = document.getElementById("messageInput");
+            const messageText = messageInput.value.trim();
+
+            if (messageText === "") return;
+
+            const timestamp = new Date();
+
+            try {
+                // Add the message
+                await addDoc(collection(db, "chats", chatId, "messages"), {
+                    sender: currentUser,
+                    receiver: tutorId,
+                    text: messageText,
+                    timestamp: timestamp
+                });
+
+                const chatRef = doc(db, "chats", chatId);
+                const chatSnap = await getDoc(chatRef);
+
+                if (!chatSnap.exists()) {
+                    // Create the chat summary if it doesn't exist
+                    await setDoc(chatRef, {
+                        user1: currentUser,
+                        user2: tutorId,
+                        lastMessage: messageText,
+                        lastMessageTime: timestamp,
+                        unreadCount: 1
+                    });
+                } else {
+                    // Update the chat summary
+                    await updateDoc(chatRef, {
+                        lastMessage: messageText,
+                        lastMessageTime: timestamp,
+                        unreadCount: increment(1)
+                    });
+                }
+
+                await updateDoc(doc(db, "chats", chatId), {
+                    unreadCount: 0
+                });
+
+
+                messageInput.value = "";
+            } catch (error) {
+                console.error("Error sending message:", error);
+            }
+        }
+
+
+        function loadMessages() {
+            const messagesContainer = document.getElementById("chatMessages");
+            const q = query(collection(db, "chats", chatId, "messages"), orderBy("timestamp"));
+
+            onSnapshot(q, (snapshot) => {
+                messagesContainer.innerHTML = "";
+                snapshot.forEach((doc) => {
+                    const msg = doc.data();
+                    const msgElement = document.createElement("div");
+                    msgElement.classList.add("message", msg.sender === currentUser ? "sent" : "received");
+                    msgElement.textContent = msg.text;
+                    messagesContainer.appendChild(msgElement);
+                });
+
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            });
+        }
+
+        document.getElementById("sendButton").addEventListener("click", sendMessage);
+        loadMessages();
+    </script>
+</body>
+</html>

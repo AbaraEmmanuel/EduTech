@@ -23,7 +23,7 @@ document.querySelector('.sign-in-form').addEventListener('submit', async (e) => 
 
         // Delay the redirect to ensure the notification shows first
         setTimeout(() => {
-            window.location.href = 'index.html';  // Redirect to dashboard after successful sign-in
+            window.location.href = 'courses.html';  // Redirect to dashboard after successful sign-in
         }, 2000); // 2-second delay to show the notification
 
     } catch (error) {
