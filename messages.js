@@ -1,130 +1,88 @@
-// Firebase imports
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-import { getFirestore, collection, query, where, orderBy, onSnapshot, addDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+import {
+  initializeApp
+} from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
+import {
+  getFirestore,
+  collection,
+  getDocs,
+  doc,
+  getDoc
+} from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 
-// Firebase config
 const firebaseConfig = {
     apiKey: "AIzaSyBnzUWyfIDIlKtNsjlwHhA3JhR5LHhb9qU",
     authDomain: "edtech-tutors.firebaseapp.com",
     projectId: "edtech-tutors",
-    storageBucket: "edtech-tutors.firebasestorage.app",
+    storageBucket: "edtech-tutors.appspot.com",
     messagingSenderId: "87645108821",
     appId: "1:87645108821:web:ff6957f6cb738dc2bcf2dc",
     measurementId: "G-GTXDL1WX0L"
-};
+  };
 
-// Init
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-const auth = getAuth(app);
 
-let currentUser = null;
-let currentChatId = null;
+// Assume currentUser (tutor) is already authenticated and available
+const currentUser = {
+  uid: "IPErXUGI30QnZoSDxhgvYo1g6kr2" // Replace with actual tutor UID logic
+};
 
-onAuthStateChanged(auth, (user) => {
-  if (user) {
-    currentUser = user;
-    loadChatList();
-  } else {
-    window.location.href = "tutors-sign_in.html";
-  }
-});
+console.log("[AUTH] Tutor UID:", currentUser.uid);
 
-function loadChatList() {
-  const chatsRef = collection(db, "chats");
-  const q = query(chatsRef, where("tutorId", "==", currentUser.uid), orderBy("lastMessageTime", "desc"));
+async function loadChats() {
+  console.log("[DEBUG] Firestore Inspection");
+  const chatsSnapshot = await getDocs(collection(db, "chats"));
+  console.log("[DEBUG] Total chats:", chatsSnapshot.size);
 
-  onSnapshot(q, (snapshot) => {
-    const chatList = document.getElementById("chat-list");
-    chatList.innerHTML = "";
+  let chatCount = 0;
 
-    if (snapshot.empty) {
-      chatList.innerHTML = "<p>No chats yet.</p>";
-      return;
+  chatsSnapshot.forEach((docSnap) => {
+    const data = docSnap.data();
+    console.log("[DEBUG] Chat:", docSnap.id);
+    console.log("[DEBUG] Data:", data);
+
+    if (data.sender === currentUser.uid || data.receiver === currentUser.uid) {
+      console.log("[LOAD] Found chat with tutor:", docSnap.id);
+      chatCount++;
+
+      const chatList = document.getElementById("chat-list");
+      const chatItem = document.createElement("div");
+      chatItem.className = "chat-item";
+      chatItem.innerHTML = `
+        <p><strong>Chat ID:</strong> ${docSnap.id}</p>
+        <p><strong>Last Message:</strong> ${data.lastMessage}</p>
+        <a href="http://localhost:8000/tutor_chat.html?userId=${data.sender === currentUser.uid ? data.receiver : data.sender}&userName=Student" target="_blank">Open Chat</a>
+        <p><strong>Sender:</strong> ${data.sender}</p>
+        <p><strong>Receiver:</strong> ${data.receiver}</p> 
+      `;
+      chatList.appendChild(chatItem);
     }
-
-    snapshot.forEach((doc) => {
-      const data = doc.data();
-      const chatDiv = document.createElement("div");
-      chatDiv.className = "chat-item";
-      chatDiv.innerHTML = `
-        <strong>${data.studentName || "Student"}</strong>
-        ${data.unreadCount ? `<span class="unread-badge">${data.unreadCount}</span>` : ""}
-        <p>${data.lastMessage || ""}</p>
-      `;
-      chatDiv.onclick = () => openChat(doc.id, data.studentName);
-      chatList.appendChild(chatDiv);
-    });
   });
+
+  if (chatCount === 0) {
+    showNoChatsUI();
+  }
 }
 
-function openChat(chatId, name) {
-  currentChatId = chatId;
-  document.getElementById("chat-list-container").style.display = "none";
-  document.getElementById("chat-container").style.display = "block";
-  document.getElementById("chat-title").innerText = name;
-
-  const messagesRef = collection(db, "chats", chatId, "messages");
-  const q = query(messagesRef, orderBy("timestamp"));
-
-  onSnapshot(q, (snapshot) => {
-    const chatBox = document.getElementById("chat-messages");
-    chatBox.innerHTML = "";
-    snapshot.forEach((doc) => {
-      const data = doc.data();
-      const isMe = data.senderId === currentUser.uid;
-      chatBox.innerHTML += `
-        <div class="message ${isMe ? 'sent' : 'received'}">
-          <strong>${isMe ? 'You' : data.senderName}:</strong> ${data.text}
-        </div>
-      `;
-    });
-    chatBox.scrollTop = chatBox.scrollHeight;
-  });
+function showNoChatsUI() {
+  const chatList = document.getElementById("chat-list");
+  chatList.innerHTML = `
+    <div class="empty-state">
+      <p>No chats yet.</p>
+      <p>Students will appear here when they message you.</p>
+      <p>Test chat: 
+        <a href="http://localhost:8000/chat.html?tutorId=${currentUser.uid}&tutorName=Tutor" target="_blank">
+          Start a test chat
+        </a>
+      </p>
+      <button onclick="loadChats()" class="debug-btn">Debug Firestore</button>
+    </div>
+  `;
 }
 
-// Back button
-document.getElementById("backBtn").onclick = () => {
-  document.getElementById("chat-container").style.display = "none";
-  document.getElementById("chat-list-container").style.display = "block";
-};
-
-// Send message
-document.getElementById("sendBtn").onclick = async () => {
-  const messageInput = document.getElementById("messageText");
-  const messageText = messageInput.value.trim();
-  if (messageText === "" || !currentChatId) return;
-
-  await addDoc(collection(db, "chats", currentChatId, "messages"), {
-    senderId: currentUser.uid,
-    senderName: currentUser.displayName || "Tutor",
-    text: messageText,
-    timestamp: new Date()
-  });
-
-  messageInput.value = "";
-};
-
-document.addEventListener('DOMContentLoaded', () => {
-    // Retrieve saved theme from localStorage and apply it
-    const savedTheme = localStorage.getItem('theme') || 'light-mode';
-    document.body.className = savedTheme;
-
-    // Update the toggle button icon based on the saved theme
-    const modeToggle = document.getElementById('modeToggle');
-    modeToggle.textContent = savedTheme === 'dark-mode' ? '\u263D' : '\u2600'; // Unicode for moon and sun
-
-    // Toggle theme and save preference to localStorage
-    modeToggle.addEventListener('click', () => {
-        if (document.body.classList.contains('light-mode')) {
-            document.body.classList.replace('light-mode', 'dark-mode');
-            modeToggle.textContent = '\u263D'; // Unicode for crescent moon
-            localStorage.setItem('theme', 'dark-mode');
-        } else {
-            document.body.classList.replace('dark-mode', 'light-mode');
-            modeToggle.textContent = '\u2600'; // Unicode for sun
-            localStorage.setItem('theme', 'light-mode');
-        }
-    });
+document.addEventListener("DOMContentLoaded", loadChats);
+document.addEventListener("DOMContentLoaded", () => {
+  const chatList = document.getElementById("chat-list");
+  chatList.innerHTML = ""; // Clear the chat list on load
 });
+// Function to show notification

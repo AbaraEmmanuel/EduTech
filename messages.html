@@ -205,7 +205,137 @@
         color: white;
         background: #444;
     }
-  </style>
+
+    /* Chat List Styles */
+    .chat-item {
+    padding: 12px;
+    margin: 8px 0;
+    border-radius: 8px;
+    background: #f5f5f5;
+    cursor: pointer;
+    transition: background 0.2s;
+    }
+
+    .dark-mode .chat-item {
+    background: #2d3748;
+    }
+
+    .chat-item:hover {
+    background: #e0e0e0;
+    }
+
+    .dark-mode .chat-item:hover {
+    background: #4a5568;
+    }
+
+    .chat-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+    }
+
+    .unread-badge {
+    background: #2563eb;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 6px;
+    font-size: 12px;
+    }
+
+    .chat-preview p {
+    margin: 4px 0;
+    color: #666;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    }
+
+    .dark-mode .chat-preview p {
+    color: #a0aec0;
+    }
+
+    .chat-preview small {
+    color: #999;
+    font-size: 12px;
+    }
+
+    /* Message Styles */
+    .message {
+    padding: 8px 12px;
+    margin: 8px;
+    border-radius: 8px;
+    max-width: 70%;
+    }
+
+    .sent {
+    background: #2563eb;
+    color: white;
+    margin-left: auto;
+    }
+
+    .received {
+    background: #e2e8f0;
+    margin-right: auto;
+    }
+
+    .dark-mode .received {
+    background: #4a5568;
+    }
+
+    .message-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 4px;
+    font-size: 14px;
+    }
+
+    .message-header small {
+    opacity: 0.8;
+    }
+
+    .sent .message-header small {
+    color: #e2e8f0;
+    }
+
+    /* Message Input */
+    .message-input {
+    display: flex;
+    gap: 8px;
+    padding: 12px;
+    border-top: 1px solid #e2e8f0;
+    }
+
+    .dark-mode .message-input {
+    border-top-color: #4a5568;
+    }
+
+    .message-input input {
+    flex: 1;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    }
+
+    .dark-mode .message-input input {
+    background: #2d3748;
+    border-color: #4a5568;
+    color: white;
+    }
+
+    .message-input button {
+    padding: 10px 16px;
+    background: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    }
+
+    .message-input button:hover {
+    background: #1d4ed8;
+    }
+    </style>
 </head>
 <body class="light-mode">
   <button class="mode-toggle" id="modeToggle">🌞</button>
