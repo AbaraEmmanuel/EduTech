@@ -51,7 +51,7 @@ async function loadChats() {
       chatItem.innerHTML = `
         <p><strong>Chat ID:</strong> ${docSnap.id}</p>
         <p><strong>Last Message:</strong> ${data.lastMessage}</p>
-        <a href="http://localhost:8000/tutor_chat.html?userId=${data.sender === currentUser.uid ? data.receiver : data.sender}&userName=Student" target="_blank">Open Chat</a>
+        <a href="/tutor_chat.html?userId=${data.sender === currentUser.uid ? data.receiver : data.sender}&userName=Student" target="_blank">Open Chat</a>
         <p><strong>Sender:</strong> ${data.sender}</p>
         <p><strong>Receiver:</strong> ${data.receiver}</p> 
       `;
