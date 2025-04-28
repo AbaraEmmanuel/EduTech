@@ -355,7 +355,6 @@
       const isTemp = docSnap.id?.startsWith?.("temp_");
 
       if (!msg.timestamp && !isTemp) {
-        // 🚫 Skip this message, it's not ready (server timestamp not yet written)
         return;
       }
 
@@ -375,11 +374,16 @@
       msgDiv.classList.add("message", isUser ? "sent" : "received");
       if (isTemp) msgDiv.dataset.tempId = docSnap.id;
 
+      // ✨ IMPORTANT: check msg.edited!
+      const textHtml = `
+        ${msg.text} ${msg.edited ? '<small style="font-size:10px;color:gray;">(edited)</small>' : ''}
+      `;
+
       msgDiv.innerHTML = `
         ${!isUser ? `<div class="username">${tutorName}</div>` : ''}
-        <div>${msg.text}</div>
+        <div>${textHtml}</div>
         <div class="timestamp">
-          ${formatTime(dateObj)} 
+          ${formatTime(dateObj)}
           ${isUser ? (msg.read ? '<span class="status">✓✓</span>' : '<span class="status">✓</span>') : ''}
         </div>
       `;
@@ -387,6 +391,7 @@
       messagesDiv.appendChild(msgDiv);
       messagesContainer.scrollTop = messagesContainer.scrollHeight;
     }
+
 
     // ========================
     // FIREBASE LISTENERS (FIXED)
@@ -408,38 +413,6 @@
       messagesContainer.scrollTop = messagesContainer.scrollHeight;
     });
 
-    // function renderMessage(docSnap) {
-    //   const msg = docSnap.data();
-    //   const isUser = msg.sender === currentUser;
-    //   const isTemp = docSnap.id?.startsWith?.("temp_");
-
-    //   const dateObj = msg.timestamp?.toDate?.() || new Date(msg.timestamp);
-    //   const currentDateKey = getDateKey(dateObj);
-
-    //   if (currentDateKey !== lastDateKey) {
-    //     lastDateKey = currentDateKey;
-    //     const dateSeparator = document.createElement("div");
-    //     dateSeparator.className = "date-separator";
-    //     dateSeparator.innerHTML = `<span>${formatDisplayDate(dateObj)}</span>`;
-    //     messagesDiv.appendChild(dateSeparator);
-    //   }
-
-    //   const msgDiv = document.createElement("div");
-    //   msgDiv.classList.add("message", isUser ? "sent" : "received");
-    //   if (isTemp) msgDiv.dataset.tempId = docSnap.id;
-
-    //   msgDiv.innerHTML = `
-    //     ${!isUser ? `<div class="username">${tutorName}</div>` : ''}
-    //     <div>${msg.text}</div>
-    //     <div class="timestamp">
-    //       ${formatTime(dateObj)} 
-    //       ${isUser ? (msg.read ? '<span class="status">✓✓</span>' : '<span class="status">✓</span>') : ''}
-    //     </div>
-    //   `;
-
-    //   messagesDiv.appendChild(msgDiv);
-    //   messageCount++;
-    // }
 
     // Typing indicator
     const statusDoc = doc(db, "chats", chatId, "status", "typing");
