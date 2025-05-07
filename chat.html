@@ -374,7 +374,6 @@
       msgDiv.classList.add("message", isUser ? "sent" : "received");
       if (isTemp) msgDiv.dataset.tempId = docSnap.id;
 
-      // ✨ IMPORTANT: check msg.edited!
       const textHtml = `
         ${msg.text} ${msg.edited ? '<small style="font-size:10px;color:gray;">(edited)</small>' : ''}
       `;
@@ -392,35 +391,54 @@
       messagesContainer.scrollTop = messagesContainer.scrollHeight;
     }
 
+    // ========================
+    // INITIALIZE CHAT DOCUMENT
+    // ========================
+    async function initializeChat() {
+      try {
+        await setDoc(doc(db, "chats", chatId), {
+          participants: [currentUser, tutorId],
+          sender: currentUser,
+          receiver: tutorId,
+          lastMessage: "",
+          lastMessageTime: serverTimestamp(),
+          unreadCounts: {
+            [tutorId]: 0
+          }
+        }, { merge: true });
+      } catch (error) {
+        console.error("Error initializing chat:", error);
+      }
+    }
 
     // ========================
-    // FIREBASE LISTENERS (FIXED)
+    // FIREBASE LISTENERS
     // ========================
+    function setupChatListeners() {
+      const messagesQuery = query(
+        collection(db, "chats", chatId, "messages"),
+        orderBy("timestamp")
+      );
 
-    const messagesQuery = query(
-      collection(db, "chats", chatId, "messages"),
-      orderBy("timestamp")
-    );
+      onSnapshot(messagesQuery, (snapshot) => {
+        messagesDiv.innerHTML = "";
+        lastNormalizedDate = null;
 
-    onSnapshot(messagesQuery, (snapshot) => {
-      messagesDiv.innerHTML = ""; // Always clear
-      lastNormalizedDate = null; // Reset lastDateKey
+        snapshot.docs.forEach((docSnap) => {
+          renderMessage(docSnap);
+        });
 
-      snapshot.docs.forEach((docSnap) => {
-        renderMessage(docSnap);
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
       });
 
-      messagesContainer.scrollTop = messagesContainer.scrollHeight;
-    });
-
-
-    // Typing indicator
-    const statusDoc = doc(db, "chats", chatId, "status", "typing");
-    onSnapshot(statusDoc, (docSnap) => {
-      const data = docSnap.data() || {};
-      typingIndicator.style.display = data[tutorId] ? "block" : "none";
-      if (data[tutorId]) messagesContainer.scrollTop = messagesContainer.scrollHeight;
-    });
+      // Typing indicator
+      const statusDoc = doc(db, "chats", chatId, "status", "typing");
+      onSnapshot(statusDoc, (docSnap) => {
+        const data = docSnap.data() || {};
+        typingIndicator.style.display = data[tutorId] ? "block" : "none";
+        if (data[tutorId]) messagesContainer.scrollTop = messagesContainer.scrollHeight;
+      });
+    }
 
     // ========================
     // MESSAGE SENDING
@@ -446,18 +464,25 @@
       sendBtn.disabled = true;
 
       try {
+        // Update chat document first
+        await setDoc(doc(db, "chats", chatId), {
+          lastMessage: text,
+          lastMessageTime: serverTimestamp(),
+          unreadCounts: {
+            [tutorId]: increment(1)
+          }
+        }, { merge: true });
+
+        // Then add the message
         await addDoc(collection(db, "chats", chatId, "messages"), {
           ...tempMessage,
           timestamp: serverTimestamp()
         });
 
-        await setDoc(doc(db, "chats", chatId), {
-          lastMessage: text,
-          lastMessageTime: serverTimestamp(),
-          unreadCount: increment(1)
+        // Update typing status
+        await setDoc(doc(db, "chats", chatId, "status", "typing"), { 
+          [currentUser]: false 
         }, { merge: true });
-
-        await setDoc(statusDoc, { [currentUser]: false }, { merge: true });
       } catch (error) {
         console.error("Error sending message:", error);
         document.querySelector(`[data-temp-id="${tempId}"]`)?.remove();
@@ -477,15 +502,25 @@
     
     let typingTimeout;
     messageInput.addEventListener("input", () => {
-      setDoc(statusDoc, { [currentUser]: true }, { merge: true });
+      setDoc(doc(db, "chats", chatId, "status", "typing"), { 
+        [currentUser]: true 
+      }, { merge: true });
       clearTimeout(typingTimeout);
       typingTimeout = setTimeout(() => {
-        setDoc(statusDoc, { [currentUser]: false }, { merge: true });
+        setDoc(doc(db, "chats", chatId, "status", "typing"), { 
+          [currentUser]: false 
+        }, { merge: true });
       }, 2000);
     });
 
     backButton.addEventListener("click", () => window.history.back());
-    window.addEventListener("load", () => messageInput.focus());
-</script>
+    
+    // Initialize chat and setup listeners
+    window.addEventListener("load", async () => {
+      await initializeChat();
+      setupChatListeners();
+      messageInput.focus();
+    });
+  </script>
 </body>
 </html>
