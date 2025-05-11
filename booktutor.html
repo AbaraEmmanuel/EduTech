@@ -615,8 +615,18 @@
             };
 
 
-            window.openChat = function(tutorId, tutorName) {
-                window.location.href = `chat.html?tutorId=${tutorId}&tutorName=${encodeURIComponent(tutorName)}`;
+            window.openChat = function(tutorId, tutorFullName) {
+                // Safely format the name
+                const formatName = (fullName) => {
+                if (!fullName) return "Tutor";
+                const names = fullName.trim().split(/\s+/);
+                return names.length > 1 
+                    ? `${names[0]} ${names[1][0]}.`
+                    : names[0];
+                };
+
+                const displayName = formatName(tutorFullName);
+                window.location.href = `chat.html?tutorId=${tutorId}&tutorName=${encodeURIComponent(displayName)}`;
             };
 
             // Fetch tutors on page load
