@@ -293,8 +293,18 @@
     // Get URL params
     const urlParams = new URLSearchParams(window.location.search);
     const tutorId = urlParams.get('tutorId') || "defaultTutor";
-    const tutorName = urlParams.get('tutorName') || "Tutor";
-    document.getElementById("chatTitle").textContent = `Chat with ${tutorName}`;
+    const tutorFullName = urlParams.get('tutorName') || "Tutor";
+    
+    // Format tutor name to show only first name and first letter of surname
+    function formatTutorName(fullName) {
+      const names = fullName.split(' ');
+      if (names.length === 0) return "Tutor";
+      if (names.length === 1) return names[0];
+      return `${names[0]} ${names[1][0]}.`;
+    }
+    
+    const displayName = formatTutorName(tutorFullName);
+    document.getElementById("chatTitle").textContent = `Chat with ${displayName}`;
 
     // DOM elements
     const messagesDiv = document.getElementById("messages");
@@ -312,9 +322,7 @@
     }
     const chatId = currentUser < tutorId ? `${currentUser}_${tutorId}` : `${tutorId}_${currentUser}`;
 
-    // ========================
-    // DATE HANDLING FUNCTIONS
-    // ========================
+    // Date handling functions
     function getNormalizedDate(date) {
       const d = new Date(date);
       return new Date(d.getFullYear(), d.getMonth(), d.getDate());
@@ -343,9 +351,7 @@
       });
     }
 
-    // ========================
-    // MESSAGE RENDERING
-    // ========================
+    // Message rendering
     let lastNormalizedDate = null;
     let isInitialLoad = true;
 
@@ -379,7 +385,7 @@
       `;
 
       msgDiv.innerHTML = `
-        ${!isUser ? `<div class="username">${tutorName}</div>` : ''}
+        ${!isUser ? `<div class="username">${displayName}</div>` : ''}
         <div>${textHtml}</div>
         <div class="timestamp">
           ${formatTime(dateObj)}
@@ -391,9 +397,7 @@
       messagesContainer.scrollTop = messagesContainer.scrollHeight;
     }
 
-    // ========================
-    // INITIALIZE CHAT DOCUMENT
-    // ========================
+    // Initialize chat document
     async function initializeChat() {
       try {
         await setDoc(doc(db, "chats", chatId), {
@@ -411,9 +415,7 @@
       }
     }
 
-    // ========================
-    // FIREBASE LISTENERS
-    // ========================
+    // Firebase listeners
     function setupChatListeners() {
       const messagesQuery = query(
         collection(db, "chats", chatId, "messages"),
@@ -440,9 +442,7 @@
       });
     }
 
-    // ========================
-    // MESSAGE SENDING
-    // ========================
+    // Message sending
     async function sendMessage() {
       const text = messageInput.value.trim();
       if (!text) return;
@@ -494,9 +494,7 @@
       }
     }
 
-    // ========================
-    // EVENT LISTENERS
-    // ========================
+    // Event listeners
     sendBtn.addEventListener("click", sendMessage);
     messageInput.addEventListener("keypress", (e) => e.key === "Enter" && sendMessage());
     
